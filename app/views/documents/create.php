@@ -1,0 +1,1 @@
+<p><b>views/documents</b> dizininde bulunan <b>create.php</b> dosyası.</p>

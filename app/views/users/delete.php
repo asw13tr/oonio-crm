@@ -1,0 +1,1 @@
+<p><b>views/users</b> dizininde bulunan <b>delete.php</b> dosyası.</p>
