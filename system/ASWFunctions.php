@@ -1,21 +1,19 @@
 <?php 
 
-function url($path='', $params = null, $write=true){
-
+function url($name_or_path='', $params = null, $write=true){
     if($write){
-        echo ASWRouter::url($path, $params);
+        echo ASWRouter::url($name_or_path, $params);
     }else{
-        return ASWRouter::url($path, $params);
+        return ASWRouter::url($name_or_path, $params);
     }
-
-}//url
-
+} //url
 
 
 
-function redirect($path='', $params = null){
-    $url = ASWRouter::url($path, $params);
+
+function redirect($name_or_path='', $params = null){
+    $url = ASWRouter::url($name_or_path, $params);
     header('Location:'.$url);
-}
+} //redirect
 
 ?>

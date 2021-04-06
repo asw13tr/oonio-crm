@@ -13,6 +13,7 @@
     ASWRouter::get('user/create',  'UserController@create',    'user.create');
     ASWRouter::post('user/create/post',  'UserController@createPost',    'user.create.post');
     ASWRouter::get('user/:id/edit',    'UserController@edit',      'user.edit');
+    ASWRouter::post('user/:id/edit/post',    'UserController@editPost',      'user.edit.post');
     ASWRouter::get('user/:id/delete',  'UserController@delete',    'user.delete');
 
 

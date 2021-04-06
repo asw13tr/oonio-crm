@@ -27,12 +27,14 @@
 
     abstract class ASWModel{
 
-        protected $table = '';
-        protected $primaryKey = 'user_id';
-        protected $primaryVal = null;
-        protected $columns = [];
+        protected $table;
+        protected $primaryKey;
+        public $primaryVal;
+        protected $columns;
 
         function __construct($data4Fill=null){
+            $this->setClassVariables();
+
             if(is_numeric($data4Fill)){
                 $this->fillWithId($data4Fill);
 
@@ -45,13 +47,22 @@
             }else{
 
             }
-
-
         } //__construct
 
+
+
         //SINIF İÇİ İŞLEMLER
+
         // SINIF İÇERİSİNDE DEĞİŞKENLER OLUŞTURUR.
         function extractColumns(){ if(is_array($this->columns)){ foreach($this->columns as $key => $val){ $this->$val = null; } }  }
+
+        /*
+         * Alt sınıflarda tanımsız değişken hatası almamak için, sınıf değişkenlerine varsayılan değerler atanıyor.
+         * Bu kodun çalışması için her alt sınıfta __construct methodunda parent::__construct() komutu çalıştırılmalıdır.
+         */
+        private function setClassVariables(){
+            $this->primaryVal = null;
+        } //setClassVariables
 
 
 
@@ -85,15 +96,17 @@
         // ID ile databaseden çekerek nesneyi doldurmak
         function fillWithId($id){
             $fields = $this->find( intval($id) );
-            foreach($fields as $key => $val){
-                if(in_array($key, $this->columns)){
-                    $this->$key = $val;
+            if($fields){
+                foreach($fields as $key => $val){
+                    if(in_array($key, $this->columns)){
+                        $this->$key = $val;
 
-                    if($key==$this->primaryKey){
-                        $this->primaryVal = $val;
-                    }
-                }
-            }
+                        if($key==$this->primaryKey){
+                            $this->primaryVal = $val;
+                        } //if
+                    } //if
+                } //foreach
+            } //if
         }//fillWithId
 
 
@@ -109,15 +122,15 @@
         // SAVE
         function save(){
             $sqlDatas = [];
-
+            // TODO: Bu alandaki update işlemini password gibi alanları boş kabul edecek ancak description gibi bölümleride boşa güncelleyecek şekilde ayarlamak gerek.
+            /*
             foreach ($this->columns as $colName){
                 if($colName != $this->primaryKey && !empty($this->$colName)){
                     $sqlDatas[$colName] = $this->$colName;
                 } //if
             } //foreach
-
-            $primaryColName = $this->primaryKey;
-            if( isset($this->$primaryColName) && @$this->$primaryColName>0){
+            */
+            if(@$this->primaryVal > 0){
                 $result = $this->update($sqlDatas);
             }else{
                 $result = $this->create($sqlDatas);
@@ -125,6 +138,10 @@
 
             return $result;
         } //save
+
+
+
+
 
 
         // CREATE
@@ -152,6 +169,9 @@
 
 
 
+
+
+
         // UPDATE
         function update($datas){
             if(!is_array($datas)){
@@ -171,7 +191,7 @@
                 $db = $this->getDB();
                 $query  = $db->prepare("UPDATE {$this->table} SET {$setDatasStr} WHERE {$this->primaryKey}=:primary_key_val");
                 $exec   = $query->execute($executeDatas);
-                return !$exec? false : $this->find( intval($db->lastInsertId()) );
+                return !$exec? false : $this->find( intval($this->primaryVal) );
             }
         } //update
 

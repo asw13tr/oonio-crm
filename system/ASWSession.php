@@ -1,4 +1,14 @@
 <?php
+/*
+ * ASWSesssion::set(key, val);
+ * ASWSesssion::set([k=>v, k2=>v2]);
+ *
+ * ASWSesssion::has(key);
+ * ASWSesssion::get(key, default);
+ * ASWSession::delete(key);
+ *
+ *
+ * */
 class ASWSession{
 
 

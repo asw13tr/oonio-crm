@@ -18,7 +18,7 @@ class  UserController extends ASWController{
 
     function create(){
         $this->view('users/create');
-    }
+    } //create
 
     function createPost(){
         $postDatas = $_POST;
@@ -29,11 +29,12 @@ class  UserController extends ASWController{
         $user = $user->save();
 
         if(!$user->user_id){
-            print_r($user);
+            ASWSession:setFlash();
         }else{
-            redirect('users');
+
         }
-    }
+        redirect('users');
+    } //createPost
 
 
 
@@ -41,16 +42,35 @@ class  UserController extends ASWController{
 
 
     function edit($id){
-
         $user = new User( $id );
-        echo '<pre>';
-        print_r($user);
-        exit;
-        $this->view('users/edit');
-    }
+        if(!$user->primaryVal){
+            redirect('users');
+        }else{
+            $this->view('users/edit', [ 'user' => $user ]);
+        }
+    } //edit
 
-    function editPost(){
-        $this->view('users/edit');
+    function editPost($id){
+        $user = new User($id);
+        if(!$user->primaryVal){
+            // TODO: Kullanıcı bulanamadı mesajı ile kullanıcı listesine yönlendirme yap
+        }
+
+        $postDatas = $_POST;
+        $postDatas['user_status'] = isset($_POST['user_status'])? 1 : 0;
+
+        unset($postDatas['user_password']);
+        if(isset($_POST['user_password']) && strlen($_POST['user_password']) > 4){
+            $postDatas['user_password'] = ASWHelper::encryptPass($_POST['user_password']);
+        }
+
+        $user = $user->update($postDatas);
+        if(!$user){
+            // TODO: Kullanıcı güncellenemedi hatası ile birlikte kullanıcı edit sayfasına yönlendir.
+        }else{
+            // TODO: Kullanıcı güncellendi bilgisi ile birlikte kullanıcı edit sayfasına yönlendir.
+        }
+        redirect('user.edit', ['id'=>$user->user_id]);
     }
 
 

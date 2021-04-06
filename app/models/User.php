@@ -3,6 +3,8 @@
 
 class User extends ASWModel{
 
+
+
     public $table = 'users';
     public $primaryKey = 'user_id';
     public $columns = [ 'user_id',

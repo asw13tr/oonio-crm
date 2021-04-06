@@ -72,7 +72,7 @@ class ASWRouter{
     public static function getParams(){
         $params = [];
         $mask = explode('/', self::getRoute()['mask']);
-        $path = explode('/', self::currentUrl(true));
+        $path = explode('/',  trim(self::currentUrl(true), '/') );
 
         foreach( $mask as $key => $val ){
             if(strpos($val, ':')===0){
