@@ -59,6 +59,13 @@ class ASWHelper{
 
 
 
+    static function htmlAlert($title=null, $message, $class="success"){
+        $title = !$title? null : '<h4 class="alert-heading">'.$title.'</h4>';
+        return '<div class="alert alert-'.$class.' alert-dismissible fade show" role="alert">'.$title.'<p class="p-0 m-0">'.$message.'</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+    } //htmlAlert
+
+
 }//ASWHelper
 
 

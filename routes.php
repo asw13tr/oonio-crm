@@ -3,18 +3,21 @@
 
     ASWRouter::get('', 'HomeController@index', 'home');
 
-    ASWRouter::get('customers', 'CustomerController@index', 'customers');
-    ASWRouter::get('customer/create', 'CustomerController@create', 'customer.create');
-    ASWRouter::get('customer/:id/edit', 'CustomerController@edit', 'customer.edit');
-    ASWRouter::get('customer/:id/delete', 'CustomerController@delete', 'customer.delete');
+    ASWRouter::get('contacts', 'ContactController@index', 'contacts');
+    ASWRouter::get('contact/create', 'ContactController@create', 'contact.create');
+    ASWRouter::post('contact/save', 'ContactController@save', 'contact.create.post');
+    ASWRouter::get('contact/:id/edit', 'ContactController@edit', 'contact.edit');
+    ASWRouter::post('contact/:id/update', 'ContactController@update', 'contact.edit.post');
+    ASWRouter::post('contact/:id/delete', 'ContactController@delete', 'contact.delete');
 
 
-    ASWRouter::get('users',        'UserController@index',     'users');
-    ASWRouter::get('user/create',  'UserController@create',    'user.create');
-    ASWRouter::post('user/create/post',  'UserController@createPost',    'user.create.post');
-    ASWRouter::get('user/:id/edit',    'UserController@edit',      'user.edit');
-    ASWRouter::post('user/:id/edit/post',    'UserController@editPost',      'user.edit.post');
-    ASWRouter::get('user/:id/delete',  'UserController@delete',    'user.delete');
+    ASWRouter::get('users',                     'UserController@index',     'users');
+    ASWRouter::get('user/create',               'UserController@create',    'user.create');
+    ASWRouter::post('user/save',         'UserController@createPost',    'user.create.post');
+    ASWRouter::get('user/:id/edit',             'UserController@edit',      'user.edit');
+    ASWRouter::post('user/:id/update',       'UserController@editPost',      'user.edit.post');
+    ASWRouter::post('user/:id/delete',          'UserController@delete',    'user.delete.post');
+    ASWRouter::post('user/:id/change-status',   'UserController@changeStatus', 'user.change.status');
 
 
     ASWRouter::get('todo',         'TodoController@index',     'todo');

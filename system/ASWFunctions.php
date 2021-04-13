@@ -16,4 +16,10 @@ function redirect($name_or_path='', $params = null){
     header('Location:'.$url);
 } //redirect
 
+
+
+function _tr($str){
+    return $str;
+}
+
 ?>

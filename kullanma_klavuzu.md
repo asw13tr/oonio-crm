@@ -54,6 +54,7 @@ Sistemin çalışacağı ana dosyalar buralardır. Ortak bir köprü oluşturara
 Makaleler için oluşturulacak örnek bir controller dosyası.  
 
 `app/controllers/ArticleController.php`
+
 ```php
 class ArticleController extends ASWController{
 
@@ -62,7 +63,7 @@ class ArticleController extends ASWController{
     
     public function index(){
         // app\views\article\index.php dosyasını ekrana basar.
-        $this->view('article/index'); 
+        $this->render('article/index'); 
     }
     
     public function edit($id){
@@ -71,7 +72,12 @@ class ArticleController extends ASWController{
         $datas = [
             'makale_id' => $id
         ];
-        $this->view('article/edit', $datas);
+        $this->render('article/edit', $datas);
+    }
+    
+    
+    public function delete($id){
+        $this->jsonRender([key=>val]);
     }
 
 }
@@ -118,7 +124,7 @@ Yukarıdaki belirleme yapıldıktan sonra artık controller dosyalarında $model
 
 # Views
 Ekrana basılacak olan php dosyalarıdır `app\views` içerisinde bulunurlar ve controller dosyaları içindeki methodlarda 
-**$this->view(filename, datas)** methodu ile çalıştırılırlar. 
+**$this->render(filename, datas)** methodu ile çalıştırılırlar. 
 - **filename**: İlk gönderilen parametre  `app\views` dizini altındaki çağırılacak php dosyasının adını alır.
 - **datas**: 2. parametre zorunlu değil ve getirilen php view dosyasına gönderilecek verileri alır. 
 

@@ -5,8 +5,8 @@
         'class' => 'btn btn-danger btn-sm',
         'icon' => 'fa fa-arrow-left'
     ] 
-] ); ?>    
-
+] ); ?>
+<?php require_once(__DIR__.'/../flash-messages.php'); ?>
 <div class="card my-3">
     <div class="card-header ">
         <a href="<?php url('users'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-list-ul"></i> Kullanıcı Listesi</a>
@@ -19,7 +19,7 @@
 
         <div class="mb-3">
             <label for="">Hesap Sahibi</label>
-            <input type="text" class="form-control" name="user_name" require/>
+            <input type="text" class="form-control" name="user_name" require autofocus/>
         </div>
         
         <div class="mb-3">

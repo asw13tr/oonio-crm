@@ -3,3 +3,14 @@
  * Coder:   Furkan Atabaş | atabasch.com
  * Date:    5.04.2021 02:13
  */
+
+*:focus, *:active{
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+body{
+    font-size: .900rem;
+    font-family: 'Arial';
+
+}

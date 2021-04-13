@@ -3,7 +3,7 @@ class TodoController extends ASWController{
 
 
     function index(){
-        $this->view('todo/index');
+        $this->render('todo/index');
     }
 
     
@@ -11,11 +11,11 @@ class TodoController extends ASWController{
 
 
     function create(){
-        $this->view('todo/create');
+        $this->render('todo/create');
     }
 
     function createPost(){
-        $this->view('todo/create');
+        $this->render('todo/create');
     }
 
 
@@ -24,11 +24,11 @@ class TodoController extends ASWController{
 
 
     function edit(){
-        $this->view('todo/edit');
+        $this->render('todo/edit');
     }
 
     function editPost(){
-        $this->view('todo/edit');
+        $this->render('todo/edit');
     }
 
 
@@ -36,10 +36,10 @@ class TodoController extends ASWController{
 
 
     function delete(){
-        $this->view('todo/delete');
+        $this->render('todo/delete');
     }
     function deletePost(){
-        $this->view('todo/delete');
+        $this->render('todo/delete');
     }
     
 

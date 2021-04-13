@@ -79,7 +79,7 @@ Controller methodunda en son kullanılacak ve ekrana bir görünüm dosyası bas
 class ProductController extends ASWController{
 
     public function index(){
-        $this->view('index'); // app/views/index.php
+        $this->render('index'); // app/views/index.php
     }
 
 }

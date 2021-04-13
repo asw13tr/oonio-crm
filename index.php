@@ -10,7 +10,7 @@ if($_SERVER['REQUEST_METHOD']!==$Route->requestMethod){
     exit;
 }
 
-$Params = ASWRouter::getParams();
+$params = ASWRouter::getParams();
 
 $pathController = __DIR__.'/app/controllers/'.$Route->controller.'.php';
 
@@ -35,7 +35,7 @@ if( !file_exists($pathController) ){
             
             $Class = new $currentControllerName();
             $methodAndClass = [$Class, $Route->method];
-            call_user_func_array($methodAndClass,  $Params);
+            call_user_func_array($methodAndClass,  $params);
 
         }
 

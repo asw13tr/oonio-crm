@@ -106,6 +106,8 @@
                         } //if
                     } //if
                 } //foreach
+            }else{
+
             } //if
         }//fillWithId
 
@@ -205,14 +207,12 @@
             if(is_array($id)){
                 $this->deleteMulti($id);
             }elseif(gettype($id)=='integer'){
-                $this->deleteOne($id);
+                return $this->deleteOne($id);
             }else{
-                $primaryColName = $this->primaryKey;
-                $id = $this->$primaryColName;
-                if(!$id){
+                if(!$this->primaryVal){
 
                 }else{
-                    $this->deleteOne($id);
+                    return $this->deleteOne($this->primaryVal);
                 }
             }
         } //delete
@@ -297,5 +297,7 @@
 
 
 
-    }
+
+
+    } //class
 ?>

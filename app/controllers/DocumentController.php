@@ -3,7 +3,7 @@ class DocumentController extends ASWController{
 
 
     function index(){
-        $this->view('documents/index');
+        $this->render('documents/index');
     }
 
     
@@ -11,11 +11,11 @@ class DocumentController extends ASWController{
 
 
     function create(){
-        $this->view('documents/create');
+        $this->render('documents/create');
     }
 
     function createPost(){
-        $this->view('documents/create');
+        $this->render('documents/create');
     }
 
 
@@ -24,11 +24,11 @@ class DocumentController extends ASWController{
 
 
     function edit(){
-        $this->view('documents/edit');
+        $this->render('documents/edit');
     }
 
     function editPost(){
-        $this->view('documents/edit');
+        $this->render('documents/edit');
     }
 
 
@@ -36,10 +36,10 @@ class DocumentController extends ASWController{
 
 
     function delete(){
-        $this->view('documents/delete');
+        $this->render('documents/delete');
     }
     function deletePost(){
-        $this->view('documents/delete');
+        $this->render('documents/delete');
     }
     
 

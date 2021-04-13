@@ -1,1 +1,0 @@
-<p><b>views/customers</b> dizininde bulunan <b>create.php</b> dosyası.</p>

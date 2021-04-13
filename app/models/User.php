@@ -16,6 +16,14 @@ class User extends ASWModel{
                         'user_status',
                         'user_extra'];
 
+    public $levelColours = [
+        1 => 'secondary',
+        2 => 'dark',
+        3 => 'info',
+        4 => 'primary',
+        5 => 'success',
+        ];
+
     function __construct($obj=null){
         parent::__construct($obj);
     }
@@ -33,10 +41,33 @@ class User extends ASWModel{
         }
     } //getStatus
 
+    function getStatusButton(){
+        $onclick = "ajaxChangeStatus('{$this->urlChangeStatus()}')";
+        return '<button onclick="'.$onclick.'" class="'.($this->user_status==0? 'd-none ' : null).'btn btn-success w-100 btn-sm status-button">Onaylı</button>
+                <button onclick="'.$onclick.'" class="'.($this->user_status==1? 'd-none ' : null).'btn btn-danger  w-100 btn-sm status-button">Onaysız</button>';
+    }
+
 
     function getLevel(){
-        return USER_STATUS_LIST[$this->user_level];
+        return '<span class="badge bg-'.$this->levelColours[$this->user_level].'">'.(USER_STATUS_LIST[$this->user_level]).'</span>';
     }
+
+
+
+
+
+    function urlEdit(){
+        return url('user.edit', ['id'=>$this->user_id], false);
+    }
+
+    function urlDelete(){
+        return url('user.delete.post', ['id'=>$this->user_id], false);
+    }
+
+    function urlChangeStatus(){
+        return url('user.change.status', ['id'=>$this->user_id], false);
+    }
+
 
     
 

@@ -6,7 +6,7 @@
                                 'icon' => 'fa fa-user-plus'
                             ] 
                         ] ); ?>
-
+<?php require_once(__DIR__.'/../flash-messages.php'); ?>
 <?php if($users): ?>
 <table class="table table-striped table-bordered table-hover">
     <thead>
@@ -15,27 +15,27 @@
             <th>Username</th>
             <th>Full Name</th>
             <th>E-mail</th>
-            <th>Level</th>
-            <th>Status</th>
-            <th width="150"></th>
+            <th width="80">Level</th>
+            <th width="60">Status</th>
+            <th width="100"></th>
         </tr>
     </thead>
 
     <tbody>
 
         <?php foreach($users as $user): ?>
-            <tr>
+            <tr class="row-item-<?php echo $user->user_id; ?>">
                 <td><?php echo $user->user_id; ?></td>
                 <td><?php echo $user->user_slug; ?></td>
                 <td><?php echo $user->user_name; ?></td>
                 <td><a href="mailto:<?php echo $user->user_email; ?>" class="btn btn-success btn-sm fa fa-paper-plane"></a> <?php echo $user->user_email; ?></td>
                 <td><?php echo $user->getLevel(); ?></td>
-                <td><?php echo $user->getStatus(); ?></td>
-                <td class="py-0">
-                    <div class="row px-1">
-                        <div class="col-4 p-1"><button class="btn btn-primary w-100 fa fa-info text-center p-2"></button></div>
-                        <div class="col-4 p-1"><a href="<?php echo url('user.edit', ['id'=>$user->user_id]); ?>" class="btn btn-warning w-100 fa fa-edit text-center p-2"></a></div>
-                        <div class="col-4 p-1"><button class="btn btn-danger w-100 fa fa-trash text-center p-2"></button></div>
+                <td><?php echo $user->getStatusButton(); ?></td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-primary fa fa-info text-center"></button>
+                        <a href="<?php echo $user->urlEdit(); ?>" class="btn btn-warning fa fa-edit text-center"></a>
+                        <button class="btn btn-danger fa fa-trash text-center" onclick="sweetDel('Hesap Siliniecek', 'Kullanıcıyı silmek istediğinize emin misiniz?', '<?php echo $user->urlDelete(); ?>')"></button>
                     </div>
                 </td>
             </tr>
@@ -44,3 +44,18 @@
     </tbody>
 </table>
 <?php endif; ?>
+
+<script>
+function ajaxChangeStatus(url){
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: '',
+        dataType: 'json'
+    }).done(response => {
+        if(response.status){
+            $('.row-item-'+response.id+' .status-button').toggleClass('d-none');
+        }
+    });
+} // ajaxChangeStatus
+</script>

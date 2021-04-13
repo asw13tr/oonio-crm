@@ -3,12 +3,24 @@ class  UserController extends ASWController{
 
     protected $models = ['User'];
 
+    private $loggedUser = [
+        'user_id' => 314,
+        'user_level' => 4
+    ];
+
+
+
+
+
+
+
+    // KULLANICI LİSTESİ
     function index(){
         $user = new User();
         $datas = [
             'users' => $user->findAll('ORDER BY user_id DESC')
         ];
-        $this->view('users/index', $datas);
+        $this->render('users/index', $datas);
 
     }
 
@@ -16,22 +28,27 @@ class  UserController extends ASWController{
 
 
 
+
+
+    // KULLANICI OLUŞTURMA FORMU
     function create(){
-        $this->view('users/create');
+        $this->render('users/create');
     } //create
 
+
+    // YENİ KULLANICIYI VERİTABANINA KAYIT ETMEK
     function createPost(){
         $postDatas = $_POST;
         $postDatas['user_password'] = ASWHelper::encryptPass($_POST['user_password']);
         $postDatas['user_status'] = isset($_POST['user_status'])? 1 : 0;
 
-        $user = new User($postDatas);
-        $user = $user->save();
+        $user = new User();
+        $user = $user->create($postDatas);
 
         if(!$user->user_id){
-            ASWSession:setFlash();
+            ASWSession::setFlash('flash-danger', 'işlem sırasında beklenmedik bir hata oluştu.');
         }else{
-
+            ASWSession::setFlash('flash-success', 'yeni kullanıcı oluşturuldu.');
         }
         redirect('users');
     } //createPost
@@ -41,19 +58,25 @@ class  UserController extends ASWController{
 
 
 
+
+    // KULLANICI DÜZENLEME FORMU
     function edit($id){
         $user = new User( $id );
         if(!$user->primaryVal){
+            ASWSession::setFlash('flash-danger', 'kullanıcı bulunamadı');
             redirect('users');
         }else{
-            $this->view('users/edit', [ 'user' => $user ]);
+            $this->render('users/edit', [ 'user' => $user ]);
         }
     } //edit
 
+
+    // KULLANICI HESABI GÜNCELLEME FONKSİYONU
     function editPost($id){
         $user = new User($id);
         if(!$user->primaryVal){
-            // TODO: Kullanıcı bulanamadı mesajı ile kullanıcı listesine yönlendirme yap
+            ASWSession::setFlash('flash-danger', 'kullanıcı bulunamadı');
+            redirect('users');
         }
 
         $postDatas = $_POST;
@@ -66,9 +89,9 @@ class  UserController extends ASWController{
 
         $user = $user->update($postDatas);
         if(!$user){
-            // TODO: Kullanıcı güncellenemedi hatası ile birlikte kullanıcı edit sayfasına yönlendir.
+            ASWSession::setFlash('flash-danger', 'kullanıcı hesabı güncellenirken bir sorun oluştu');
         }else{
-            // TODO: Kullanıcı güncellendi bilgisi ile birlikte kullanıcı edit sayfasına yönlendir.
+            ASWSession::setFlash('flash-success', 'kullanıcı hesabı güncellendi');
         }
         redirect('user.edit', ['id'=>$user->user_id]);
     }
@@ -77,12 +100,76 @@ class  UserController extends ASWController{
 
 
 
-    function delete(){
-        $this->view('users/delete');
-    }
-    function deletePost(){
-        $this->view('users/delete');
-    }
+
+
+    // KULLANICI HESABI SİLMEK
+    function delete($id){
+        $user = new User($id);
+        $result = [
+            'status' => false,
+            'title' => _tr('bir sorun oluştu'),
+            'message' => _tr('sistemde beklenmedik bir sorun oluştu ve işlem gerçekleşemedi')
+        ];
+        if(!$user->primaryVal){
+            $result['message'] = _tr('belirtilen hesap sistemde yok');
+            $result['timer'] = 2000;
+        }elseif($this->loggedUser['user_id']==$id || $this->loggedUser['user_level']<=$user->user_level){
+            $result['message'] = _tr('bu hesabı silme yetkiniz yok');
+            $result['timer'] = 2000;
+        }else{
+            $delete = $user->delete();
+            if($delete){
+                $result = [
+                    'status'    => true,
+                    'title'     => _tr('hesap silindi'),
+                    'message'   => _tr('belirtilen kullanıcı hesabı silindi'),
+                    'id'        => $id
+                ];
+            }
+        }
+        $this->jsonRender($result);
+    } //delete
+
+
+
+
+
+
+
+    // KULLANICI DURUMUNU DEĞİŞTİRMEK
+    function changeStatus($id){
+      $user = new User($id);
+      $result = [
+          'status' => false,
+          'title' => 'işlem başarısız',
+          'message' => 'sistemde beklenmedik bir hata oluştu'
+      ];
+      if(!$user->primaryVal){
+
+      }else{
+          $newStatus =  !$user->user_status? 1 : 0;
+          $user = $user->update(['user_status' => $newStatus]);
+          if(!$user){
+
+          }else{
+              $result = [
+                  'status' => true,
+                  'title' => 'durum değiştirildi',
+                  'message' => 'kullanıcı hesabı durumu değiştirildi.',
+                  'id' => $user->user_id,
+                  'newStatus' => $newStatus
+              ];
+          }
+      }
+      $this->jsonRender($result);
+    } //changestatus
+
+
+
+
+
+
+
 
 
 }

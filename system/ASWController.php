@@ -8,8 +8,18 @@ abstract class ASWController{
     }
 
     // PHP DOSYALARINI EKRANA BASAN FONKSİYON
-    protected function view($path, $datas=[]){
+    protected function render($path, $datas=[]){
         ASWView::include($path, $datas, true, true);
+    }
+
+
+    protected function jsonRender($datas = []){
+        header('Content-Type: application/json');
+        $result = $datas;
+        if(is_array($datas) || is_object($datas)){
+            $result = json_encode($datas);
+        }
+        echo $result;
     }
 
 
