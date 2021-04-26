@@ -4,6 +4,26 @@
  * Date:    5.04.2021 02:13
  */
 
+
+
+
+
+//SUMMER NODE KULLANIMIÜ
+$('.summernote').summernote({
+    placeholder: 'buraya yazın...',
+    tabsize: 2,
+    height: 400,
+   /* toolbar: [
+        ['style', ['style']],
+        ['font', ['bold', 'underline', 'clear']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'video']],
+        ['view', ['fullscreen', 'codeview', 'help']]
+    ]*/
+});
+
 /*
 * RETURN JSON
 *       'status'    => true,

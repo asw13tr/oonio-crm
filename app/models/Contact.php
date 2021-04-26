@@ -12,6 +12,7 @@ class Contact extends ASWModel{
     public $columns = [ 'contact_id',
                         'contact_name',
                         'contact_gender',
+                        'contact_birth',
                         'contact_email',
                         'contact_mobile',
                         'contact_phone',

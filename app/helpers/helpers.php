@@ -8,7 +8,7 @@ class ASWHelper{
         if(is_array($buttonsArray)){
             foreach($buttonsArray as $button){
                 $btnIcon = isset($button['icon'])? '<i class="'.$button['icon'].'"></i> ' : null;
-                $buttons[] = '<a href="'.$button['url'].'" class="'.@$button['class'].'">'.$btnIcon.$button['title'].'</a>';
+                $buttons[] = '<a href="'.$button['url'].'" class="mx-1 '.@$button['class'].'">'.$btnIcon.$button['title'].'</a>';
             }
         }
 

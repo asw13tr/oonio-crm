@@ -1,19 +1,26 @@
 <?php
-class  ContactController extends ASWController{
+/*
+ * Company: OONIO | oonio.de
+ * Coder:   Furkan Atabaş | atabasch.com
+ * Date:    19.04.2021 17:31
+ */
 
-    protected $models = ['Contact'];
+class ProjectController extends ASWController{
+
+
+    protected $models = ['Project', 'User', 'Contact', 'ProjectTag'];
 
 
 
 
 
-    // REHBER
+    // PROJE LİSTESİ
     function index(){
-        $contact = new Contact();
+        $project = new Project();
         $datas = [
-            'contacts' => $contact->findAll('ORDER BY contact_name DESC')
+            'projects' => $project->findAll('ORDER BY project_id DESC')
         ];
-        $this->render('contacts/index', $datas);
+        $this->render('projects/index', $datas);
 
     }
 
@@ -23,9 +30,18 @@ class  ContactController extends ASWController{
 
 
 
-    // REHBERE EKLEME FORMU
+    // YENİ PROJE OLUŞTURMA FORMU
     function create(){
-        $this->render('contacts/form');
+        $tag = new ProjectTag();
+        $user = new User();
+        $contact = new Contact();
+
+        $datas = [
+            'tags' => $tag->findAll('ORDER BY tax_val ASC'),
+            'users' => $user->findAll('ORDER BY user_slug ASC'),
+            'contacts' => $contact->findAll('ORDER BY contact_name ASC')
+        ];
+        $this->render('projects/create', $datas);
     } //create
 
 
@@ -114,17 +130,7 @@ class  ContactController extends ASWController{
     } //delete
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 }
+
+
 ?>

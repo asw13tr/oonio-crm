@@ -15,6 +15,7 @@
             <th><?php echo _tr('hitap'); ?></th>
             <th><?php echo _tr('müşteri'); ?></th>
             <th width="260"><?php echo _tr('e-posta'); ?></th>
+            <th width="260"><?php echo _tr('doğum tarihi'); ?></th>
             <th width="130"><?php echo _tr('cep numarası'); ?></th>
             <th width="130"><?php echo _tr('sabit hat'); ?></th>
             <th><?php echo _tr('adres'); ?></th>
@@ -30,6 +31,7 @@
                 <td><?php echo $contact->contact_gender=='female'? _tr('bayan') : _tr('bay'); ?></td>
                 <td><?php echo $contact->contact_name; ?></td>
                 <td><a href="mailto:<?php echo $contact->contact_email; ?>" class="text-decoration-none text-dark"><i class="fa fa-paper-plane"></i> <?php echo $contact->contact_email; ?></a></td>
+                <td><?php if($contact->contact_birth){ echo date('d F Y', strtotime($contact->contact_birth)); } ?></td>
                 <td><a href="tel:<?php echo $contact->contact_mobile; ?>" class="text-decoration-none text-dark"><i class="fa fa-mobile-alt"></i> <?php echo $contact->contact_mobile; ?></a></td>
                 <td><a href="tel:<?php echo $contact->contact_phone; ?>" class="text-decoration-none text-dark"><i class="fa fa-phone-volume"></i> <?php echo $contact->contact_phone; ?></a></td>
                 <td><?php echo $contact->contact_address; ?></td>

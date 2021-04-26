@@ -33,6 +33,7 @@
         protected $columns;
 
         function __construct($data4Fill=null){
+            $this->includeModels();
             $this->setClassVariables();
 
             if(is_numeric($data4Fill)){
@@ -294,6 +295,24 @@
 
 
         // Sql kodu çalıştırarak veri getiren kod
+
+
+
+
+
+
+
+
+        // app/models içerisinden model dosyası import etmek.
+        // miras alan sınıfta $models içeriğine gerekli modelleri gir.
+        protected $models = [];
+        protected function includeModels(){
+            if(is_array($this->models) && $this->models){
+                foreach($this->models as $model){
+                    require_once(realpath('.').'/app/models/'.$model.'.php');
+                }
+            }
+        }
 
 
 

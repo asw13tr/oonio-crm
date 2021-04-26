@@ -9,8 +9,14 @@
     box-shadow: none !important;
 }
 
+*{
+    border-radius: 0px !important;
+}
+
 body{
     font-size: .900rem;
     font-family: 'Arial';
 
 }
+
+.note-editor.note-airframe.fullscreen, .note-editor.note-frame.fullscreen{ background: white; }
