@@ -12,6 +12,19 @@ class ProjectController extends ASWController{
 
 
 
+    private function getConnectionsForForm(){
+        $tag = new ProjectTag();
+        $user = new User();
+        $contact = new Contact();
+
+        return [
+            'tags' => $tag->findAll('ORDER BY tax_val ASC', null, 'tax_id, tax_val', true),
+            'users' => $user->findAll('ORDER BY user_slug ASC', null, 'user_id, user_slug, user_name', true),
+            'contacts' => $contact->findAll('ORDER BY contact_name ASC', null, 'contact_id, contact_name', true)
+        ];
+    }
+
+
 
 
     // PROJE LİSTESİ
@@ -36,29 +49,29 @@ class ProjectController extends ASWController{
         $user = new User();
         $contact = new Contact();
 
-        $datas = [
-            'tags' => $tag->findAll('ORDER BY tax_val ASC'),
-            'users' => $user->findAll('ORDER BY user_slug ASC'),
-            'contacts' => $contact->findAll('ORDER BY contact_name ASC')
-        ];
-        $this->render('projects/create', $datas);
+        $datas = $this->getConnectionsForForm();
+
+        $this->render('projects/form', $datas);
     } //create
 
 
-    // Rehber kişisini kayıt etmek
+    // PROJEYİ KAYI ETMEK
     function save(){
         $postDatas = $_POST;
-        $postDatas['contact_extra'] = json_encode($_POST['contact_extra']);
-        $contact = new Contact();
-        $contact = $contact->create($postDatas);
+        $postDatas['project_extra'] = json_encode($_POST['project_extra']);
+        $project = new Project();
+        $project = $project->create($postDatas);
 
-        if(!$contact){
+        if(!$project){ // Proje veritabanına eklenemedi.
             ASWSession::setFlash('flash-danger', 'işlem sırasında beklenmedik bir hata oluştu.');
         }else{
-            ASWSession::setFlash('flash-success', 'yeni kayıt eklendi');
+            $project->connectTables('project_taxonomy', 'tax_id', $_POST['project_tags'] );
+            $project->connectTables('project_users', 'user_id', $_POST['project_users'] );
+            $project->connectTables('project_contacts', 'contact_id', $_POST['project_contacts'] );
+            ASWSession::setFlash('flash-success', 'yeni proje oluşturuldu');
         }
-        redirect('contacts');
-    } //createPost
+        redirect('projects');
+    } //save
 
 
 
@@ -68,35 +81,42 @@ class ProjectController extends ASWController{
 
     // Müşteri bilgileri düzenleme formu
     function edit($id){
-        $contact = new Contact( $id );
-        if(!$contact->primaryVal){
-            ASWSession::setFlash('flash-danger', 'kişi bulunamadı');
-            redirect('contacts');
+        $project = new Project( $id );
+        if(!$project->primaryVal){
+            ASWSession::setFlash('flash-danger', 'aranan proje bulunamadı');
+            redirect('projects');
         }else{
-            $this->render('contacts/form', [ 'contact' => $contact ]);
+            $datas = array_merge([
+                'project' => $project,
+            ], $this->getConnectionsForForm());
+
+            $this->render('projects/form', $datas);
         }
     } //edit
 
 
-    // Müşteri bilgilerini güncellemek
+    // Proje bilgilerini güncellemek
     function update($id){
-        $contact = new Contact($id);
-        if(!$contact->primaryVal){
-            ASWSession::setFlash('flash-danger', 'kişi bulunamadı');
-            redirect('contacts');
+        $project = new Project( $id );
+        if(!$project->primaryVal){
+            ASWSession::setFlash('flash-danger', 'güncellenecek bir proje bulunamadı');
+            redirect('projects');
         }
 
         $postDatas = $_POST;
-        $postDatas['contact_extra'] = json_encode($_POST['contact_extra']);
-        $contact = $contact->update($postDatas);
+        $postDatas['project_extra'] = json_encode($_POST['project_extra']);
+        $project = $project->update($postDatas);
 
-        if(!$contact){
-            ASWSession::setFlash('flash-danger', 'kişi güncellenirken bir sorun oluştu');
+        if(!$project){ // Proje güncellenemedi.
+            ASWSession::setFlash('flash-danger', 'işlem sırasında beklenmedik bir hata oluştu.');
         }else{
-            ASWSession::setFlash('flash-success', 'kişi bilgileri güncellendi');
+            $project->connectTables('project_taxonomy', 'tax_id', $_POST['project_tags'] );
+            $project->connectTables('project_users', 'user_id', $_POST['project_users'] );
+            $project->connectTables('project_contacts', 'contact_id', $_POST['project_contacts'] );
+            ASWSession::setFlash('flash-success', 'proje bilgileri güncellendi');
         }
-        redirect('contact.edit', ['id'=>$contact->contact_id]);
-    }
+        redirect('project.edit', ['id'=>$project->project_id]);
+    } //update
 
 
 
@@ -104,24 +124,25 @@ class ProjectController extends ASWController{
 
 
 
-    // Müşteri Hesabını Silmek
+    // Projeyi Silmek
     function delete($id){
-        $contact = new Contact($id);
+        $project = new Project($id);
         $result = [
             'status' => false,
             'title' => _tr('bir sorun oluştu'),
             'message' => _tr('sistemde beklenmedik bir sorun oluştu ve işlem gerçekleşemedi')
         ];
-        if(!$contact->primaryVal){
-            $result['message'] = _tr('belirtilen müşteri sistemde yok');
+        if(!$project->primaryVal){
+            $result['message'] = _tr('belirtilen proje sistemde yok');
             $result['timer'] = 2000;
         }else{
-            $delete = $contact->delete();
+            $delete = $project->delete();
             if($delete){
+                $project->deleteConnections($id);
                 $result = [
                     'status'    => true,
-                    'title'     => _tr('hesap silindi'),
-                    'message'   => _tr('belirtilen müşteri silindi'),
+                    'title'     => _tr('proje silindi'),
+                    'message'   => _tr('belirtilen proje sistemden silindi'),
                     'id'        => $id
                 ];
             }

@@ -148,7 +148,17 @@
 
 
         // CREATE
-        function create($datas){
+        function create($datas, $multiple = false){
+            if(!$multiple){
+                return $this->singleCreate($datas);
+            }else{
+                return $this->multiCreate($datas);
+            }
+        } //create
+
+
+        // SINGLE CREATE
+        function singleCreate($datas){
             if(!is_array($datas)){
                 return '$datas bir array değil.';
             }else{
@@ -168,7 +178,45 @@
                 $exec   = $query->execute($insertDatas);
                 return !$exec? false : $this->find( intval($db->lastInsertId()) );
             }
-        } //create
+        } //singleCreate
+
+
+
+        // MULTI CREATE
+        function multiCreate($datas){
+            if(!is_array($datas)){
+                return '$datas bir array değil.';
+            }else{
+
+                $setDatas = [];
+                foreach($datas[0] as $k => $v){
+                    if(in_array($k, $this->columns)){
+                        $setDatas[] = "{$k}=:{$k}";
+                    }
+                }
+                $setDatasStr = implode(', ', $setDatas);
+
+                $db = $this->getDB();
+                $query  = $db->prepare("INSERT INTO {$this->table} SET {$setDatasStr}");
+
+                try {
+                    $db->beginTransaction();
+                    foreach($datas as $data){
+                        $insertDatas = [];
+                        foreach($data as $k => $v){
+                            if(in_array($k, $this->columns)){ $insertDatas[$k] = $v; }
+                        }
+                        $query->execute($insertDatas);
+                    }
+                    $db->commit();
+                    return true;
+                }catch (Exception $e){
+                    $db->rollback();
+                    return false;
+                } //catch
+
+            } //else
+        } //multiCreate
 
 
 
@@ -211,7 +259,7 @@
                 return $this->deleteOne($id);
             }else{
                 if(!$this->primaryVal){
-
+                    return false;
                 }else{
                     return $this->deleteOne($this->primaryVal);
                 }
@@ -254,27 +302,33 @@
         }
 
         // FIND SINGLE
-        function findSingle($id){
-            $sql    = "SELECT * FROM {$this->table} WHERE {$this->primaryKey} IN (?)";
+        function findSingle($id, $selectColumns=null){
+            $selectColumns = !$selectColumns? '*' : $selectColumns;
+            $sql    = "SELECT {$selectColumns} FROM {$this->table} WHERE {$this->primaryKey} IN (?)";
             $query  = $this->getDB()->prepare($sql);
             $execute = $query->execute([$id]);
             return !$execute? false : $query->fetchObject(get_class($this));
         }
 
         // FIND MULTI
-        function findMulti($ids){
+        function findMulti($ids, $selectColumns=null, $disableClass=false){
             $params = implode(',', array_fill(0, count($ids), '?'));
-            $sql    = "SELECT * FROM {$this->table} WHERE {$this->primaryKey} IN ($params)";
-            $query  = $this->getDB()->prepare($sql);
-            $execute = $query->execute($ids);
-            return !$execute? false : $query->fetchAll(PDO::FETCH_CLASS, get_class($this));
+            $selectColumns = !$selectColumns? '*' : $selectColumns;
+            $sql = "SELECT {$selectColumns} FROM {$this->table} WHERE {$this->primaryKey} IN ($params)";
+            return $this->findSql($sql, $ids, $disableClass);
         }
 
         // FIND SQL
-        function findSql($sql, $params=null){
+        function findSql($sql, $params=null, $disableClass=false){
             $query = $this->getDB()->prepare($sql);
             $execute = $query->execute($params);
-            return !$execute? false : $query->fetchAll(PDO::FETCH_CLASS, get_class($this));
+            if(!$execute){
+                return false;
+            }elseif($disableClass){
+                return $query->fetchAll(PDO::FETCH_CLASS);
+            }else{
+                return $query->fetchAll(PDO::FETCH_CLASS, get_class($this));
+            }
         }
 
 
@@ -288,9 +342,10 @@
          * ->findAll('sql :key=val', ['key'=> $val] );
          *
          * */
-        function findAll($extraSql=null, $params=null){
-            $sql = "SELECT * FROM {$this->table} {$extraSql}";
-            return $this->findSql($sql, $params);
+        function findAll($extraSql=null, $params=null, $selectColumns=null, $disableClass=false){
+            $selectColumns = !$selectColumns? '*' : $selectColumns;
+            $sql = "SELECT {$selectColumns} FROM {$this->table} {$extraSql}";
+            return $this->findSql($sql, $params, $disableClass);
         } 
 
 

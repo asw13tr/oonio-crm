@@ -20,3 +20,16 @@ body{
 }
 
 .note-editor.note-airframe.fullscreen, .note-editor.note-frame.fullscreen{ background: white; }
+
+.box-checklist{
+    max-height: 260px;
+    overflow: auto;
+}
+
+.form-label{
+    font-weight: 600;
+    color: #111;
+}
+.form-control{
+    border-color: #d9d9d9;
+}

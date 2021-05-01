@@ -16,6 +16,7 @@ class ASWDatabase extends PDO{
         if(DB_NAME && DB_USER){
             try{
                 parent::__construct($dsn, DB_USER, DB_PASS);
+                $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }catch(Exception $e){
                 print_r($e->getMessage());
                 exit;
@@ -42,6 +43,13 @@ class ASWDatabase extends PDO{
 
 
     function queryOne($sql, $datas=null){
+        $query = parent::prepare($sql);
+        $query->execute($datas);
+        return $query->fetchObject();
+    }// queryOne
+
+
+    function queryMulti($sql, $datas=null){
         $query = parent::prepare($sql);
         $query->execute($datas);
         return $query->fetchObject();

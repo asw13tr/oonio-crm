@@ -21,15 +21,58 @@ class Project extends ASWModel{
     ];
     protected $models = ['ProjectTag'];
 
+    protected $projectTaxonomyTable = 'project_taxonomy';
+
     public function __construct($data4Fill = null){
         parent::__construct($data4Fill);
     }
 
 
-    // ETİKETLERİ GETİR
-    public function getTags(){
+    public function getConnections(){
+        $datas = [];
 
-    }
+        $db = $this->getDB();
+        $sqlTags     = "SELECT t.tax_id, t.tax_val FROM taxonomies AS t INNER JOIN project_taxonomy pt on t.tax_id = pt.tax_id WHERE pt.project_id=:pid";
+        $sqlUsers    = "SELECT u.user_id, u.user_slug, u.user_name FROM users AS u INNER JOIN project_users pu on u.user_id = pu.user_id WHERE pu.project_id=:pid";
+        $sqlContacts = "SELECT c.contact_id, c.contact_name FROM contacts AS c INNER JOIN project_contacts pc on c.contact_id = pc.contact_id WHERE pc.project_id=:pid";
+        $datas = [
+            'tags' => $db->query($sqlTags, ['pid'=>$this->project_id]),
+            'users' => $db->query($sqlUsers, ['pid'=>$this->project_id]),
+            'contacts' => $db->query($sqlContacts, ['pid'=>$this->project_id]),
+        ];
+
+        return $datas;
+
+    } //getConnections
+
+
+    public function deleteConnections($id){
+        $db = $this->getDB();
+        $db->exec('DELETE FROM project_taxonomy WHERE project_id=?', [$id]);
+        $db->exec('DELETE FROM project_users WHERE project_id=?', [$id]);
+        $db->exec('DELETE FROM project_contacts WHERE project_id=?', [$id]);
+    } //deleteConnections
+
+
+    public function connectTables($table, $col_name, $items){
+        $db = $this->getDB();
+
+        $db->exec("DELETE FROM {$table} WHERE project_id=?", [$this->project_id]);
+
+        $statement= $db->prepare("INSERT INTO {$table}(project_id, {$col_name}) VALUES(:project_id, :item_id)");
+        try{
+           $db->beginTransaction();
+           foreach($items as $item_id){
+               $statement->execute( ['project_id'=>$this->project_id, 'item_id'=>$item_id] );
+           }
+           $db->commit();
+        }catch(Exception $e){
+            $db->rollBack();
+            print_r($e->getMessage());
+            exit;
+        }
+    } //connectTag
+
 
     // URL FONKSİYONLARI
     public function urlEdit(){
