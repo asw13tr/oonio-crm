@@ -41,12 +41,6 @@ class User extends ASWModel{
         }
     } //getStatus
 
-    function getStatusButton(){
-        $onclick = "ajaxChangeStatus('{$this->urlChangeStatus()}')";
-        return '<button onclick="'.$onclick.'" class="'.($this->user_status==0? 'd-none ' : null).'btn btn-success w-100 btn-sm status-button">Onaylı</button>
-                <button onclick="'.$onclick.'" class="'.($this->user_status==1? 'd-none ' : null).'btn btn-danger  w-100 btn-sm status-button">Onaysız</button>';
-    }
-
 
     function getLevel(){
         return '<span class="badge bg-'.$this->levelColours[$this->user_level].'">'.(USER_STATUS_LIST[$this->user_level]).'</span>';
