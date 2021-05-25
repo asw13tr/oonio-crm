@@ -33,3 +33,7 @@ body{
 .form-control{
     border-color: #d9d9d9;
 }
+
+.swal2-container.swal2-top .swal2-modal{
+    margin-top: 61px !important;
+}

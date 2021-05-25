@@ -3,15 +3,12 @@ class  UserController extends ASWController{
 
     protected $models = ['User'];
 
-    private $loggedUser = [
-        'user_id' => 314,
-        'user_level' => 4
-    ];
+    private $loggedUser = [];
 
-
-
-
-
+    public function __construct(){
+        parent::__construct();
+        $this->loggedUser = ASWSession::get('user', null);
+    }
 
 
     // KULLANICI LİSTESİ
@@ -113,7 +110,7 @@ class  UserController extends ASWController{
         if(!$user->primaryVal){
             $result['message'] = _tr('belirtilen hesap sistemde yok');
             $result['timer'] = 2000;
-        }elseif($this->loggedUser['user_id']==$id || $this->loggedUser['user_level']<=$user->user_level){
+        }elseif($this->loggedUser->user_id==$id || $this->loggedUser->user_level<=$user->user_level){
             $result['message'] = _tr('bu hesabı silme yetkiniz yok');
             $result['timer'] = 2000;
         }else{

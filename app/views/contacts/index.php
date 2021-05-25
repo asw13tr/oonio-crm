@@ -29,7 +29,7 @@
             <tr class="row-item-<?php echo $contact->contact_id; ?>">
                 <td><?php echo $contact->contact_id; ?></td>
                 <td><?php echo $contact->contact_gender=='female'? _tr('bayan') : _tr('bay'); ?></td>
-                <td><?php echo $contact->contact_name; ?></td>
+                <td><button class="btn btn-default btn-sm" onclick="getPopupInfo('<?php echo $contact->urlPopup(); ?>')"><?php echo $contact->contact_name; ?></button></td>
                 <td><a href="mailto:<?php echo $contact->contact_email; ?>" class="text-decoration-none text-dark"><i class="fa fa-paper-plane"></i> <?php echo $contact->contact_email; ?></a></td>
                 <td><?php if($contact->contact_birth){ echo date('d F Y', strtotime($contact->contact_birth)); } ?></td>
                 <td><a href="tel:<?php echo $contact->contact_mobile; ?>" class="text-decoration-none text-dark"><i class="fa fa-mobile-alt"></i> <?php echo $contact->contact_mobile; ?></a></td>
@@ -38,7 +38,7 @@
 
                 <td>
                     <div class="btn-group">
-                        <button class="btn btn-primary fa fa-info text-center"></button>
+                        <button class="btn btn-primary fa fa-info text-center" onclick="getPopupInfo('<?php echo $contact->urlPopup(); ?>')"></button>
                         <a href="<?php echo $contact->urlEdit(); ?>" class="btn btn-warning fa fa-edit text-center"></a>
                         <button class="btn btn-danger fa fa-trash text-center" onclick="sweetDel('müşteri silinecek', 'müşteriyi silmek istediğinize emin misiniz?', '<?php echo $contact->urlDelete(); ?>')"></button>
                     </div>

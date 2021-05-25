@@ -46,6 +46,7 @@ class Project extends ASWModel{
     } //getConnections
 
 
+
     public function deleteConnections($id){
         $db = $this->getDB();
         $db->exec('DELETE FROM project_taxonomy WHERE project_id=?', [$id]);
@@ -81,6 +82,10 @@ class Project extends ASWModel{
 
     public function urlDelete(){
         return url('project.delete', ['id' => $this->project_id], false);
+    }
+
+    public function urlPopup(){
+        return url('project.popup', ['id' => $this->project_id], false);
     }
 
 } // Project

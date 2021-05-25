@@ -1,5 +1,6 @@
 <?php 
     require_once(__DIR__."/ASWSession.php");
+    require_once(__DIR__."/ASWCookie.php");
     require_once(__DIR__ . "/../config.php");
     require_once(__DIR__."/ASWDatabase.php");
     require_once(__DIR__."/ASWRouter.php");

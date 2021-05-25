@@ -118,6 +118,19 @@ class  ContactController extends ASWController{
 
 
 
+    // Müşteri Bilgilerini Getirmek
+    function popup($id){
+        $contact = new Contact( $id );
+        if(!$contact->primaryVal){
+
+        }else{
+            $this->simpleRender('contacts/popup', [ 'contact' => $contact ]);
+        }
+    } //edit
+
+
+
+
 
 
 

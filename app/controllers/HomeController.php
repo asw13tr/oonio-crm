@@ -6,7 +6,6 @@ class HomeController extends ASWController{
 
     function index(){
         $this->render('index');
-
     }   
 
 }

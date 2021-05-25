@@ -40,6 +40,11 @@ class Contact extends ASWModel{
     public function urlDelete(){
         return url('contact.delete', ['id' => $this->contact_id], false);
     }
+
+
+    public function urlPopup(){
+        return url('contact.popup', ['id' => $this->contact_id], false);
+    }
 }
 
 ?>

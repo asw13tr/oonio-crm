@@ -12,12 +12,13 @@
             <li class="nav-item"><a class="nav-link" aria-current="page" href="<?php url('tasks'); ?>"><i class="fa fa-tasks"></i> Görevler</a></li>
             <li class="nav-item"><a class="nav-link" aria-current="page" href="<?php url('projects'); ?>"><i class="fa fa-briefcase"></i> Projeler</a></li>
             <li class="nav-item"><a class="nav-link" aria-current="page" href="<?php url('contacts'); ?>"><i class="fa fa-address-book"></i> Müşteriler</a></li>
-            <li class="nav-item"><a class="nav-link" aria-current="page" href="<?php url('documents'); ?>"><i class="fa fa-folder-open"></i> Dökümanlar</a></li>
+            <?php /* <li class="nav-item"><a class="nav-link" aria-current="page" href="<?php url('documents'); ?>"><i class="fa fa-folder-open"></i> Dökümanlar</a></li> */ ?>
             <li class="nav-item"><a class="nav-link" aria-current="page" href="<?php url('users'); ?>"><i class="fa fa-users"></i> Kullanıcılar</a></li>
         </ul>
 
         <ul class="navbar-nav me-0 mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" aria-current="page" href="<?php url('logout'); ?>"><i class="fa fa-sign-out-alt"></i> Çıkış</a></li>
+            <li class="nav-item m-1"><a class="nav-link p-1 bg-primary text-light" aria-current="page" href="<?php url('profile'); ?>"><i class="far fa-user-circle"></i> <?php echo ASWSession::get('user')->user_name; ?></a></li>
+            <li class="nav-item m-1"><a class="nav-link p-1 bg-danger text-light" aria-current="page" href="<?php url('logout'); ?>"><i class="fa fa-sign-out-alt"></i> Çıkış</a></li>
         </ul>
 
     <?php /*

@@ -66,3 +66,33 @@ function sweetDel(title, desc, url){
 
     }); //then
 } //sweetDel
+
+
+
+// POPUP OLARAK HIZLI SAYFA GETİRME
+function getPopupInfo(url){
+
+    Swal.fire({
+        title: false,
+        icon: false,
+        width: '61.80%',
+        html: 'Loading...',
+        position: 'top',
+        showCloseButton: true,
+        showCancelButton: false,
+        showConfirmButton: false,
+        focusConfirm: false,
+
+    });
+    $.ajax({
+        type: 'GET',
+        dataType:'html',
+        url: url,
+    }).done( response => {
+        $('#swal2-content').html(response);
+    });
+
+} //getPopupInfo
+
+
+

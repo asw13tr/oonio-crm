@@ -1,5 +1,8 @@
 <?php
-    
+
+    ASWRouter::get('login', 'SessionController@login', 'login');
+    ASWRouter::post('login/do', 'SessionController@loginPost', 'login.post');
+    ASWRouter::get('logout', 'SessionController@logout', 'logout');
 
     ASWRouter::get('', 'HomeController@index', 'home');
 
@@ -10,6 +13,7 @@
     ASWRouter::get('contact/:id/edit', 'ContactController@edit', 'contact.edit');
     ASWRouter::post('contact/:id/update', 'ContactController@update', 'contact.edit.post');
     ASWRouter::post('contact/:id/delete', 'ContactController@delete', 'contact.delete');
+    ASWRouter::get('contact/:id/popup', 'ContactController@popup', 'contact.popup');
 
     // USERS
     ASWRouter::get('users',                     'UserController@index',     'users');
@@ -27,6 +31,7 @@
     ASWRouter::get('project/:id/edit', 'ProjectController@edit', 'project.edit');
     ASWRouter::post('project/:id/update', 'ProjectController@update', 'project.update');
     ASWRouter::post('project/:id/delete',          'ProjectController@delete',    'project.delete');
+    ASWRouter::get('project/:id/popup',          'ProjectController@popup',    'project.popup');
 
     // PROJECT TAGS
     ASWRouter::get('projects/tags', 'ProjectTagController@index', 'project.tags');

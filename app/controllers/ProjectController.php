@@ -151,6 +151,21 @@ class ProjectController extends ASWController{
     } //delete
 
 
+
+
+
+    function popup($id){
+        $project = new Project( $id );
+        if(!$project->primaryVal){
+            echo "false";
+        }else{
+            $datas = array_merge([
+                'project' => $project,
+            ], $this->getConnectionsForForm());
+            $this->simpleRender('projects/popup', $datas);
+        }
+    }
+
 }
 
 

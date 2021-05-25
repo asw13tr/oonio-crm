@@ -4,12 +4,18 @@
 abstract class ASWController{
 
     function __construct(){
+        $this->baseLoginControl();
         $this->includeModels();
     }
 
     // PHP DOSYALARINI EKRANA BASAN FONKSİYON
     protected function render($path, $datas=[]){
         ASWView::include($path, $datas, true, true);
+    }
+
+    // PHP DOSYALARINI INCLUDE İŞLEMLERİ OLMADAN EKRANA BASAN FONKSİYON
+    protected function simpleRender($path, $datas=[]){
+        ASWView::include($path, $datas, false, false);
     }
 
 
@@ -33,6 +39,20 @@ abstract class ASWController{
             }
         }   
     }
+
+
+
+
+
+    // AUTH CONTROL
+    protected function baseLoginControl(){
+        $allowPaths = ['/login', '/login/do'];
+        $path = ASWRouter::currentUrl(true);
+
+        if(!in_array($path, $allowPaths) && !ASWSession::has('user')){
+            redirect('login?to='.ASWRouter::currentUrl(true) );
+        }
+    }//baseLoginControl
 
 
 }

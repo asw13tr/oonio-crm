@@ -89,12 +89,23 @@ class ASWSession{
     }
 
 
+    // FLASH SİLMEK
     static function deleteFlash($key){
         unset($_SESSION['flash_sessions'][$key]);
     }
     static function removeFlash($key){ self::deleteFlash($key); }
-    static function trashlash($key){ self::deleteFlash($key); }
+    static function trashFlash($key){ self::deleteFlash($key); }
 
+
+
+    // TÜM SESSIONLARI SİLER
+    static function destroy(){
+        foreach ($_SESSION as $k => $v){ unset($_SESSION[$k]); }
+        session_destroy();
+    }
+    static function deleteAll(){ self::destroy(); }
+    static function removeAll(){ self::destroy(); }
+    static function trashAll(){ self::destroy(); }
 
 
 
