@@ -46,10 +46,10 @@ abstract class ASWController{
 
     // AUTH CONTROL
     protected function baseLoginControl(){
-        $allowPaths = ['/login', '/login/do'];
-        $path = ASWRouter::currentUrl(true);
+        $allowNames = ['login'];
+        $route = ASWRouter::getRoute();
 
-        if(!in_array($path, $allowPaths) && !ASWSession::has('user')){
+        if(!in_array($route['name'], $allowNames) && !ASWSession::has('user')){
             redirect('login?to='.ASWRouter::currentUrl(true) );
         }
     }//baseLoginControl
