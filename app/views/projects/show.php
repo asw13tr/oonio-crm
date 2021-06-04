@@ -74,7 +74,7 @@
         [
             [   'title' => _tr('veri ekle'),
                 'url' => '#newProjectData',
-                'class' => 'btn btn-primary btn-sm" data-bs-toggle="collapse" role="button',
+                'class' => 'btnNewProjectData btn btn-primary btn-sm" data-bs-toggle="collapse" role="button',
                 'icon' => 'fa fa-plus'
             ]
         ] );
@@ -84,18 +84,19 @@
         <div class="card-header bg-dark text-light"><h5><?php echo _tr('yeni veri bilgileri'); ?></h5></div>
         <div class="card-body p-2">
             <div class="row">
-                <form id="newDataForm" class="row">
+                <form action="<?php echo url('project.data.save', ['id'=>$project->project_id]); ?>" onsubmit="return createNewProjectData(event);" id="newDataForm" class="row">
                 <input type="hidden" name="data_project" value="<?php echo $project->project_id; ?>">
                 <?php
-                echo ASWHelper::htmlFloatInput('data_title', null, _tr('başlık'), 'col-md-4 my-2');
-                echo ASWHelper::htmlFloatInput('data_key', null, _tr('anahtar'), 'col-md-4 my-2');
+                echo ASWHelper::htmlFloatInput('data_title', null, _tr('başlık'), 'col-md-4 my-2', 'required');
+                echo ASWHelper::htmlFloatInput('data_key', null, _tr('anahtar'), 'col-md-4 my-2', 'required');
                 echo ASWHelper::htmlFloatInput('data_val', null, _tr('değer (şifrelenecek)'), 'col-md-4 my-2', 'password');
-                echo ASWHelper::htmlFloatInput('data_description', null, _tr('Açıklama'), 'col-12 my-2', 'textarea');
+                echo ASWHelper::htmlFloatInput('data_description', null, _tr('Açıklama'), 'col-12 my-2',null, 'textarea');
                 ?>
-                </form>
+
                 <div class="col-12 text-end">
-                    <button class="btn btn-primary rounded my-2" onclick="createNewProjectData('<?php echo url('project.data.save', ['id'=>$project->project_id]); ?>')"><?php echo _tr('yeni veriyi ekle'); ?></button>
+                    <button class="btn btn-primary rounded my-2"><?php echo _tr('yeni veriyi ekle'); ?></button>
                 </div>
+                </form>
             </div>
         </div>
     </div>

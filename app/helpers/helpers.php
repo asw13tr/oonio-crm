@@ -98,17 +98,17 @@ class ASWHelper{
     } //htmlAlert
 
 
-    static function htmlFloatInput($id, $val=null, $title='', $outerClass='', $type="text"){
+    static function htmlFloatInput($id, $val=null, $title='', $outerClass='', $extra=null, $type="text"){
         if($type=='textarea'){
             $result =  '<div class="'.$outerClass.'">
                     <div class="form-floating">
-                        <textarea autocomplete="off" type="'.$type.'" name="'.$id.'" id="'.$id.'" class="form-control" placeholder="'.$title.'" style="height: 100px">'.$val.'</textarea><label for="'.$id.'">'.$title.'</label>
+                        <textarea autocomplete="off" type="'.$type.'" name="'.$id.'" id="'.$id.'" class="form-control" placeholder="'.$title.'" style="height: 100px" '.$extra.'>'.$val.'</textarea><label for="'.$id.'">'.$title.'</label>
                     </div>
                 </div>';
         }else{
             $result =  '<div class="'.$outerClass.'">
                     <div class="form-floating">
-                        <input autocomplete="off" type="'.$type.'" name="'.$id.'" id="'.$id.'" class="form-control" placeholder="'.$title.'" value="'.$val.'"><label for="'.$id.'">'.$title.'</label>
+                        <input autocomplete="off" type="'.$type.'" name="'.$id.'" id="'.$id.'" class="form-control" placeholder="'.$title.'" value="'.$val.'" '.$extra.'/><label for="'.$id.'">'.$title.'</label>
                     </div>
                 </div>';
         }

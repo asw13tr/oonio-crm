@@ -122,18 +122,28 @@ function getPopupInfo(url){
 
 
 // PROJELERE YENİ VERİ BİLGİSİ EKLEMEK
-function createNewProjectData(url){
-    let formDatas = new FormData(document.getElementById('newDataForm'));
+function createNewProjectData(e){
+    e.preventDefault();
+    let form = document.getElementById('newDataForm');
+    let formDatas = new FormData(form);
+
     $.ajax({
-        url: url,
+        url: form.action,
         type: 'POST',
         dataType: 'JSON',
         processData: false,
         contentType: false,
         data: formDatas
     }).done((response)=>{
-        console.log(response);
+        if(response.status!=true){
+            alert('işlem başarısız');
+        }else{
+            alert('işlem başarılı');
+            form.reset();
+            document.querySelector('a.btnNewProjectData').click();
+        }
     });
+    return false;
 } //createNewProjectData
 
 
