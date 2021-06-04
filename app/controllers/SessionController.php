@@ -43,7 +43,8 @@ class SessionController extends ASWController
                         'user_id'=>$user->user_id,
                         'user_slug'=>$user->user_slug
                     ];
-                    ASWCookie::set($cookies, 1, 1);
+                    $time15days = ((1*60)*24)*15;
+                    ASWCookie::set($cookies, 1, $time15days);
                 }
                 redirect($to);
             }

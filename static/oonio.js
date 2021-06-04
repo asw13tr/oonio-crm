@@ -24,6 +24,9 @@ $('.summernote').summernote({
     ]*/
 });
 
+
+var sweetModals = [];
+
 /*
 * RETURN JSON
 *       'status'    => true,
@@ -38,10 +41,33 @@ function sweetDel(title, desc, url){
         title: title,
         icon: 'warning',
         text: desc,
-        showCancelButton: true,
+        showConfirmButton: true,
         confirmButtonText: `Onayla`,
+        showCancelButton: true,
         cancelButtonText: `Vazgeç`,
-    }).then((result) => {
+        preConfirm: (success) => {
+            if(success==true){
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: null,
+                    dataType: 'json'
+                }).done((response) => {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: (!response.status? 'error' : 'success'),
+                        title: response.title,
+                        text: response.message,
+                        showConfirmButton: false,
+                        timer: (!response.timer? 750 : response.timer)
+                    })
+                    if(response.status){
+                        $('tr.row-item-'+response.id).fadeOut(250);
+                    }
+                }); //done
+            } //success==true
+        }
+    });/*.then((result) => {
 
         if(result.isConfirmed){
             $.ajax({
@@ -64,14 +90,13 @@ function sweetDel(title, desc, url){
             }); //done
         } //if(result.isConfirmed) )
 
-    }); //then
+    }); //then*/
 } //sweetDel
 
 
 
 // POPUP OLARAK HIZLI SAYFA GETİRME
 function getPopupInfo(url){
-
     Swal.fire({
         title: false,
         icon: false,
@@ -82,7 +107,6 @@ function getPopupInfo(url){
         showCancelButton: false,
         showConfirmButton: false,
         focusConfirm: false,
-
     });
     $.ajax({
         type: 'GET',
@@ -95,4 +119,37 @@ function getPopupInfo(url){
 } //getPopupInfo
 
 
+
+
+// PROJELERE YENİ VERİ BİLGİSİ EKLEMEK
+function createNewProjectData(url){
+    let formDatas = new FormData(document.getElementById('newDataForm'));
+    $.ajax({
+        url: url,
+        type: 'POST',
+        dataType: 'JSON',
+        processData: false,
+        contentType: false,
+        data: formDatas
+    }).done((response)=>{
+        console.log(response);
+    });
+} //createNewProjectData
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
 

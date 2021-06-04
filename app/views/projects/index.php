@@ -32,13 +32,13 @@
         <?php foreach($projects as $project):  ?>
             <tr class="row-item-<?php echo $project->project_id; ?>">
                 <td><?php echo $project->project_id; ?></td>
-                <td><?php echo $project->project_status>0? '<span class="badge bg-success">active</span>' : '<span class="badge bg-danger">passive</span>'; ?>
-                    <button class="btn btn-default btn-sm" onclick="getPopupInfo('<?php echo $project->urlPopup(); ?>')"><?php echo $project->project_title; ?></button></td>
+                <td><button class="btn btn-default btn-sm text-start" onclick="getPopupInfo('<?php echo $project->urlPopup(); ?>')"><?php echo $project->project_status>0? '<span class="badge bg-success">active</span>' : '<span class="badge bg-danger">passive</span>'; ?>
+                    <?php echo $project->project_title; ?></button></td>
                 <td><?php echo $project->project_title; ?></td>
                 <td><?php if($project->project_c_time){ echo date('d F Y', strtotime($project->project_c_time)); } ?></td>
                 <td>
                     <div class="btn-group">
-                        <button class="btn btn-primary fa fa-info text-center" onclick="getPopupInfo('<?php echo $project->urlPopup(); ?>')"></button>
+                        <a href="<?php echo $project->urlShow(); ?>" class="btn btn-primary fa fa-info text-center"></a>
                         <a href="<?php echo $project->urlEdit(); ?>" class="btn btn-warning fa fa-edit text-center"></a>
                         <button class="btn btn-danger fa fa-trash text-center" onclick="sweetDel('proje silinecek', 'projeyi silmek istediğinize emin misiniz? işlem bir daha geri alınamaz', '<?php echo $project->urlDelete(); ?>')"></button>
                     </div>

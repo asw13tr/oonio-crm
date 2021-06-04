@@ -59,11 +59,61 @@ class ASWHelper{
 
 
 
+
+
+    static function oonioEncrypt($data){
+        $cry = ['$:o:',':n!:',':Ni:', ':o:#'];
+
+        if(strlen($data) > 50){$bolme = 5;}
+        elseif(strlen($data) >= 20){$bolme = 4;}
+        elseif(strlen($data) >= 7){$bolme = 2;}
+        else{$bolme = 1;}
+
+        $dataArray = [];
+
+        for($i=0; $i<strlen($data); $i++){
+            $dataArray[] = $data[$i];
+            if(($i+1) % $bolme == 0){
+                $dataArray[] = $cry[rand(0,3)];
+            }
+        }
+
+        $result = implode('', $dataArray);
+        return base64_encode($result);
+    } //oonioEncrypt
+
+    static function oonioDecrypt($data){
+        $cry = ['$:o:',':n!:',':Ni:', ':o:#'];
+        $result = str_replace($cry, '', base64_decode($data));
+        return $result;
+    } //oonioDecrypt
+
+
+
+
     static function htmlAlert($title=null, $message, $class="success"){
         $title = !$title? null : '<h4 class="alert-heading">'.$title.'</h4>';
         return '<div class="alert alert-'.$class.' alert-dismissible fade show" role="alert">'.$title.'<p class="p-0 m-0">'.$message.'</p>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
     } //htmlAlert
+
+
+    static function htmlFloatInput($id, $val=null, $title='', $outerClass='', $type="text"){
+        if($type=='textarea'){
+            $result =  '<div class="'.$outerClass.'">
+                    <div class="form-floating">
+                        <textarea autocomplete="off" type="'.$type.'" name="'.$id.'" id="'.$id.'" class="form-control" placeholder="'.$title.'" style="height: 100px">'.$val.'</textarea><label for="'.$id.'">'.$title.'</label>
+                    </div>
+                </div>';
+        }else{
+            $result =  '<div class="'.$outerClass.'">
+                    <div class="form-floating">
+                        <input autocomplete="off" type="'.$type.'" name="'.$id.'" id="'.$id.'" class="form-control" placeholder="'.$title.'" value="'.$val.'"><label for="'.$id.'">'.$title.'</label>
+                    </div>
+                </div>';
+        }
+        return $result;
+    } //htmlFloatInput
 
 
 }//ASWHelper

@@ -8,7 +8,7 @@
 class ProjectController extends ASWController{
 
 
-    protected $models = ['Project', 'User', 'Contact', 'ProjectTag'];
+    protected $models = ['Project', 'User', 'Contact', 'ProjectTag', 'ProjectData'];
 
 
 
@@ -36,6 +36,24 @@ class ProjectController extends ASWController{
         $this->render('projects/index', $datas);
 
     }
+
+
+
+
+
+
+    // PROJE DETAYLARI
+    function show($id){
+        $project = new Project( $id );
+        if(!$project->primaryVal){
+            echo "false";
+        }else{
+            $datas = array_merge([
+                'project' => $project,
+            ], $this->getConnectionsForForm());
+            $this->render('projects/show', $datas);
+        }
+    } //detail
 
 
 
@@ -151,9 +169,6 @@ class ProjectController extends ASWController{
     } //delete
 
 
-
-
-
     function popup($id){
         $project = new Project( $id );
         if(!$project->primaryVal){
@@ -162,9 +177,58 @@ class ProjectController extends ASWController{
             $datas = array_merge([
                 'project' => $project,
             ], $this->getConnectionsForForm());
-            $this->simpleRender('projects/popup', $datas);
+            $this->simpleRender('projects/show', $datas);
         }
-    }
+    } //popup
+
+
+
+
+
+    /*
+     *
+     * PROJE
+     *  VERİLERİ
+     *
+     * */
+
+    // PROJEYE YENİ VERİ EKLE
+    function saveData($id){
+        $result = ['status'=>false];
+        $project = new Project( $id );
+        if(!$project->primaryVal){
+        }else{
+
+            $projectID = post('data_project', false);
+            if($id == $projectID){
+                $newProjectDatas = [
+                  'data_project'        => $projectID,
+                  'data_title'          => post('data_title'),
+                  'data_description'    => post('data_description'),
+                  'data_value' => json_encode([
+                                        'keyword'   => post('data_key'),
+                                        'value'     => ASWHelper::oonioEncrypt(post('data_val'))
+                                    ]),
+                ];
+
+                $ProjectData = new ProjectData();
+                $ProjectData = $ProjectData->create($newProjectDatas);
+
+                if(!$ProjectData){ // Data veritabanına eklenemedi.
+                }else{
+                    $result = array_merge($newProjectDatas, ['status'=>true]);
+                }
+
+            } //if($id == $projectID)
+
+        }
+        $this->jsonRender($result);
+    } // saveData
+
+
+
+
+
 
 }
 

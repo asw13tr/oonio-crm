@@ -68,4 +68,6 @@
 
     </table>
 
+    <button class="btn btn-primary" onclick="ajaxNewDataForProject()"><i class="fa fa-plus"></i> <?php echo _tr('veri ekle'); ?></button>
+
 </div>

@@ -28,10 +28,12 @@
     ASWRouter::get('projects', 'ProjectController@index', 'projects');
     ASWRouter::get('project/create', 'ProjectController@create', 'project.create');
     ASWRouter::post('project/save', 'ProjectController@save', 'project.save');
+    ASWRouter::get('project/:id',          'ProjectController@show',    'project.show');
     ASWRouter::get('project/:id/edit', 'ProjectController@edit', 'project.edit');
     ASWRouter::post('project/:id/update', 'ProjectController@update', 'project.update');
     ASWRouter::post('project/:id/delete',          'ProjectController@delete',    'project.delete');
     ASWRouter::get('project/:id/popup',          'ProjectController@popup',    'project.popup');
+    ASWRouter::post('project/:id/save-data', 'ProjectController@saveData', 'project.data.save');
 
     // PROJECT TAGS
     ASWRouter::get('projects/tags', 'ProjectTagController@index', 'project.tags');

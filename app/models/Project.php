@@ -75,7 +75,36 @@ class Project extends ASWModel{
     } //connectTag
 
 
+
+
+
+
+
+
+
+    public function getDatas(){
+
+        $db     = $this->getDB();
+        $sql    = "SELECT * FROM project_datas WHERE data_project=:pid";
+        return  $db->query($sql, ['pid'=>$this->project_id]);
+
+    } //getDatas
+
+
+
+
+
+
+
+
+
+
+
     // URL FONKSİYONLARI
+    public function urlShow(){
+        return url('project.show', ['id' => $this->project_id], false);
+    }
+
     public function urlEdit(){
         return url('project.edit', ['id' => $this->project_id], false);
     }
