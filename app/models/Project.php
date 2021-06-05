@@ -19,7 +19,7 @@ class Project extends ASWModel{
         'project_c_time',
         'project_u_time'
     ];
-    protected $models = ['ProjectTag'];
+    protected $models = ['ProjectTag', 'ProjectData'];
 
     protected $projectTaxonomyTable = 'project_taxonomy';
 
@@ -83,11 +83,9 @@ class Project extends ASWModel{
 
 
     public function getDatas(){
-
-        $db     = $this->getDB();
+        $ProjectData = new ProjectData();
         $sql    = "SELECT * FROM project_datas WHERE data_project=:pid";
-        return  $db->query($sql, ['pid'=>$this->project_id]);
-
+        return $ProjectData->findSql($sql, ['pid'=>$this->project_id]);
     } //getDatas
 
 

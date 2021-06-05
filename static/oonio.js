@@ -36,7 +36,7 @@ var sweetModals = [];
         'timer'      => ms
 * */
 // TABLO DA AJAX İLE SİLME İŞLEMİ
-function sweetDel(title, desc, url){
+function sweetDel(title, desc, url, trClassNamePrefix='tr.row-item-'){
     Swal.fire({
         title: title,
         icon: 'warning',
@@ -44,30 +44,8 @@ function sweetDel(title, desc, url){
         showConfirmButton: true,
         confirmButtonText: `Onayla`,
         showCancelButton: true,
-        cancelButtonText: `Vazgeç`,
-        preConfirm: (success) => {
-            if(success==true){
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    data: null,
-                    dataType: 'json'
-                }).done((response) => {
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: (!response.status? 'error' : 'success'),
-                        title: response.title,
-                        text: response.message,
-                        showConfirmButton: false,
-                        timer: (!response.timer? 750 : response.timer)
-                    })
-                    if(response.status){
-                        $('tr.row-item-'+response.id).fadeOut(250);
-                    }
-                }); //done
-            } //success==true
-        }
-    });/*.then((result) => {
+        cancelButtonText: `Vazgeç`
+    }).then((result) => {
 
         if(result.isConfirmed){
             $.ajax({
@@ -85,12 +63,12 @@ function sweetDel(title, desc, url){
                     timer: (!response.timer? 750 : response.timer)
                 })
                 if(response.status){
-                    $('tr.row-item-'+response.id).fadeOut(250);
+                    $(trClassNamePrefix+response.id).fadeOut(250);
                 }
             }); //done
         } //if(result.isConfirmed) )
 
-    }); //then*/
+    }); //then
 } //sweetDel
 
 
@@ -138,7 +116,8 @@ function createNewProjectData(e){
         if(response.status!=true){
             alert('işlem başarısız');
         }else{
-            alert('işlem başarılı');
+            console.log(response);
+            // TODO: Veri eklenince tabloyada eklenmeli.
             form.reset();
             document.querySelector('a.btnNewProjectData').click();
         }
@@ -147,11 +126,36 @@ function createNewProjectData(e){
 } //createNewProjectData
 
 
+function decryptProjectData(prcOrID, url, val){
+    if(prcOrID!='show'){
+        $('.row-data-item-'+prcOrID+' input.dataInput').val('');
+        $('.row-data-item-'+prcOrID+' button.btnDecrypt').toggleClass('d-none');
+    }else{
+        $.ajax({
+            url:url,
+            type:'POST',
+            data: {val:val},
+            dataType:'JSON',
+        }).done( response => {
+            if(response.status==true){
+                $('.'+response.className+' input.dataInput').val(response.value);
+                $('.'+response.className+' button.btnDecrypt').toggleClass('d-none');
+            }
+        } );
+    }
+} // decryptProjectData
 
 
 
 
 
+
+function copyToClipboard(id){
+    var copyText = document.getElementById(id);
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+} //copyToClipboard
 
 
 

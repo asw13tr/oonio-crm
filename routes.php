@@ -33,7 +33,11 @@
     ASWRouter::post('project/:id/update', 'ProjectController@update', 'project.update');
     ASWRouter::post('project/:id/delete',          'ProjectController@delete',    'project.delete');
     ASWRouter::get('project/:id/popup',          'ProjectController@popup',    'project.popup');
-    ASWRouter::post('project/:id/save-data', 'ProjectController@saveData', 'project.data.save');
+
+    // PROJECT DATAS
+    ASWRouter::post('project/data/:id/save', 'ProjectDataController@save', 'project.data.save');
+    ASWRouter::post('project/data/:id/decrypt', 'ProjectDataController@decrypt', 'project.data.decrypt');
+    ASWRouter::post('project/data/:id/delete',          'ProjectDataController@delete',    'project.data.delete');
 
     // PROJECT TAGS
     ASWRouter::get('projects/tags', 'ProjectTagController@index', 'project.tags');

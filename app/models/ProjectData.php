@@ -19,6 +19,10 @@ class ProjectData extends ASWModel{
         return url('project.data.edit', ['id'=>$this->data_id], false);
     }
 
+    public function urlDecrypt(){
+        return url('project.data.decrypt', ['id'=>$this->data_id], false);
+    }
+
     public function urlDelete(){
         return url('project.data.delete', ['id'=>$this->data_id], false);
     }

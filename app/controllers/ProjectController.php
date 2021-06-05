@@ -185,50 +185,6 @@ class ProjectController extends ASWController{
 
 
 
-    /*
-     *
-     * PROJE
-     *  VERİLERİ
-     *
-     * */
-
-    // PROJEYE YENİ VERİ EKLE
-    function saveData($id){
-        $result = ['status'=>false];
-        $project = new Project( $id );
-        if(!$project->primaryVal){
-        }else{
-
-            $projectID = post('data_project', false);
-            if($id == $projectID){
-                $newProjectDatas = [
-                  'data_project'        => $projectID,
-                  'data_title'          => post('data_title'),
-                  'data_description'    => post('data_description'),
-                  'data_value' => json_encode([
-                                        'keyword'   => post('data_key'),
-                                        'value'     => ASWHelper::oonioEncrypt(post('data_val'))
-                                    ]),
-                ];
-
-                $ProjectData = new ProjectData();
-                $ProjectData = $ProjectData->create($newProjectDatas);
-
-                if(!$ProjectData){ // Data veritabanına eklenemedi.
-                }else{
-                    $result = array_merge($newProjectDatas, ['status'=>true]);
-                }
-
-            } //if($id == $projectID)
-
-        }
-        $this->jsonRender($result);
-    } // saveData
-
-
-
-
-
 
 }
 
