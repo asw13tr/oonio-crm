@@ -9,6 +9,7 @@ class ProjectController extends ASWController{
 
 
     protected $models = ['Project', 'User', 'Contact', 'ProjectTag', 'ProjectData'];
+    protected $projectFooterScripts = ['/static/js/projects.js'];
 
 
 
@@ -31,7 +32,9 @@ class ProjectController extends ASWController{
     function index(){
         $project = new Project();
         $datas = [
-            'projects' => $project->findAll('ORDER BY project_id DESC')
+            'projects' => $project->findAll('ORDER BY project_id DESC'),
+            //'footerStyles' => $this->projectFooterStyles,
+            'footerScripts' => $this->projectFooterScripts
         ];
         $this->render('projects/index', $datas);
 

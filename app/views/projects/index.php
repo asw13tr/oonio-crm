@@ -32,7 +32,7 @@
         <?php foreach($projects as $project):  ?>
             <tr class="row-item-<?php echo $project->project_id; ?>">
                 <td><?php echo $project->project_id; ?></td>
-                <td><button class="btn btn-default btn-sm text-start" onclick="getPopupInfo('<?php echo $project->urlPopup(); ?>')"><?php echo $project->project_status>0? '<span class="badge bg-success">active</span>' : '<span class="badge bg-danger">passive</span>'; ?>
+                <td><button class="btn btn-default btn-sm text-start" onclick="showProjectWithAjax('<?php echo $project->urlPopup(); ?>')"><?php echo $project->project_status>0? '<span class="badge bg-success">active</span>' : '<span class="badge bg-danger">passive</span>'; ?>
                     <?php echo $project->project_title; ?></button></td>
                 <td><?php echo $project->project_title; ?></td>
                 <td><?php if($project->project_c_time){ echo date('d F Y', strtotime($project->project_c_time)); } ?></td>

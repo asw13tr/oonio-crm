@@ -5,6 +5,19 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-    <script src="<?php url('/static/oonio.js'); ?>"></script>
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+<script src="<?php url('/static/oonio.js'); ?>"></script>
+    <?php
+        if(isset($footerStyles) && is_array($footerStyles)){
+            foreach($footerStyles as $href){
+                echo '<link rel="stylesheet" href="'.$href.'">';
+            }
+        }
+        if(isset($footerScripts) && is_array($footerScripts)){
+            foreach($footerScripts as $src){
+                echo '<script src="'.$src.'"></script>';
+            }
+        }
+    ?>
   </body>
 </html>

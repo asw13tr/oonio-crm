@@ -37,6 +37,43 @@ var sweetModals = [];
 * */
 // TABLO DA AJAX İLE SİLME İŞLEMİ
 function sweetDel(title, desc, url, trClassNamePrefix='tr.row-item-'){
+    let popup = alertify.confirm(title, desc,
+        function(){
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: null,
+                dataType: 'json'
+            }).done((response) => {
+                if(response.status){
+                    alertify.set('notifier','position', 'top-right');
+                    alertify.notify(response.title, (!response.status? 'error' : 'success'), 3, function(){});
+                    $(trClassNamePrefix+response.id).fadeOut(250);
+                }else{
+
+                }
+            }); //done
+        }, // ok butonu
+        function(){
+            // vazgeçildi
+        }).setting({
+                autoReset:true,
+                basic:false,
+                modal:true,
+                frameless:false,
+                resizable:false,
+                maximizable: false,
+                pinnable:false,
+                padding:true,
+                transition:'flipy',
+                defaultFocus: 'ok',
+                onclose: function(){
+                    this.setContent('');
+                }
+            });
+
+
+/*
     Swal.fire({
         title: title,
         icon: 'warning',
@@ -69,29 +106,33 @@ function sweetDel(title, desc, url, trClassNamePrefix='tr.row-item-'){
         } //if(result.isConfirmed) )
 
     }); //then
+    */
+
 } //sweetDel
 
 
 
 // POPUP OLARAK HIZLI SAYFA GETİRME
 function getPopupInfo(url){
-    Swal.fire({
-        title: false,
-        icon: false,
-        width: '61.80%',
-        html: 'Loading...',
-        position: 'top',
-        showCloseButton: true,
-        showCancelButton: false,
-        showConfirmButton: false,
-        focusConfirm: false,
-    });
-    $.ajax({
-        type: 'GET',
-        dataType:'html',
-        url: url,
-    }).done( response => {
-        $('#swal2-content').html(response);
+    let popup = alertify.confirm('','loading...', function(){})
+        .setting({
+            autoReset:true,
+            basic:true,
+            modal:true,
+            frameless:true,
+            resizable:true,
+            maximizable: true,
+            pinnable:true,
+            padding:true,
+            resizable:true,
+            transition:'slide',
+            onclose: function(){
+                this.setContent('loading...');
+            }
+        });
+
+    $.ajax({type: 'GET', dataType:'html', url: url}).done( response => {
+        popup.resizeTo('61.80%','61.80%').setContent(response);
     });
 
 } //getPopupInfo

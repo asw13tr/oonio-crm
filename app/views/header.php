@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <title>Oonio CRM</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -9,7 +10,20 @@
     <link rel="stylesheet" href="<?php url('/static/oonio.css'); ?>">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-    <title>Oonio CRM</title>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css">
+    <?php
+        if(isset($headerStyles) && is_array($headerStyles)){
+            foreach($headerStyles as $href){
+                echo '<link rel="stylesheet" href="'.$href.'">';
+            }
+        }
+        if(isset($headerScripts) && is_array($headerScripts)){
+            foreach($headerScripts as $src){
+                echo '<script src="'.$src.'"></script>';
+            }
+        }
+    ?>
 </head>
 <body>
 <?php require_once('navbar.php'); ?>
