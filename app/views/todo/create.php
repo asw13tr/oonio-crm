@@ -1,1 +1,0 @@
-<p><b>views/todo</b> dizininde bulunan <b>create.php</b> dosyası.</p>

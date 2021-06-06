@@ -47,10 +47,10 @@
     ASWRouter::post('project/tag/:id/delete', 'ProjectTagController@delete', 'project.tag.delete');
 
     // TASKS
-    ASWRouter::get('todo',         'TodoController@index',     'todo');
-    ASWRouter::get('todo/create',  'TodoController@create',    'todo.create');
-    ASWRouter::get('todo/:id/edit',    'TodoController@edit',      'todo.edit');
-    ASWRouter::get('todo/:id/delete',  'TodoController@delete',    'todo.delete');
+    ASWRouter::get('tasks',         'TaskController@index',     'tasks');
+    ASWRouter::get('tasks/create',  'TaskController@create',    'task.create');
+    ASWRouter::get('tasks/:id/edit',    'TaskController@edit',      'task.edit');
+    ASWRouter::get('tasks/:id/delete',  'TaskController@delete',    'task.delete');
 
     // DOCUMENTS
     ASWRouter::get('documents',        'DocumentController@index',     'documents');
