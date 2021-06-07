@@ -68,79 +68,8 @@
 
     </table>
 
-    <?php ########################################################################################################### ?>
-    <?php
-        echo ASWHelper::getSubHeader('ilişkili veriler', 'fa fa-chevron-right',
-        [
-            [   'title' => _tr('veri ekle'),
-                'url' => '#newProjectData',
-                'class' => 'btnNewProjectData btn btn-primary btn-sm" data-bs-toggle="collapse" role="button',
-                'icon' => 'fa fa-plus'
-            ]
-        ] );
-    ?>
+    <?php require_once(__DIR__.'/show-datas.php'); ?>
 
-    <div id="newProjectData" class="card collapse bg-light">
-        <div class="card-header bg-dark text-light"><h5><?php echo _tr('yeni veri bilgileri'); ?></h5></div>
-        <div class="card-body p-2">
-            <div class="row">
-                <form action="<?php echo url('project.data.save', ['id'=>$project->project_id]); ?>" onsubmit="return createNewProjectData(event);" id="newDataForm" class="row">
-                <input type="hidden" name="data_project" value="<?php echo $project->project_id; ?>">
-                <?php
-                echo ASWHelper::htmlFloatInput('data_title', null, _tr('başlık'), 'col-md-4 my-2', 'required');
-                echo ASWHelper::htmlFloatInput('data_key', null, _tr('anahtar'), 'col-md-4 my-2', 'required');
-                echo ASWHelper::htmlFloatInput('data_val', null, _tr('değer (şifrelenecek)'), 'col-md-4 my-2', 'password');
-                echo ASWHelper::htmlFloatInput('data_description', null, _tr('Açıklama'), 'col-12 my-2',null, 'textarea');
-                ?>
-
-                <div class="col-12 text-end">
-                    <button class="btn btn-primary rounded my-2"><?php echo _tr('yeni veriyi ekle'); ?></button>
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-
-        <table class="table table-striped table-bordered table-hover">
-            <thead>
-            <tr>
-                <th width="50">#</th>
-                <th><?php echo _tr('başlık'); ?></th>
-                <th><?php echo _tr('anahtar'); ?></th>
-                <th><?php echo _tr('değer'); ?></th>
-                <th width="100"></th>
-            </tr>
-            </thead>
-
-            <tbody>
-
-            <?php foreach($project->getDatas() as $data): $dExtra = json_decode($data->data_value); ?>
-                <tr class="row-data-item-<?php echo $data->data_id; ?>">
-                    <td><?php echo $data->data_id; ?></td>
-                    <td><button class="btn btn-default btn-sm text-start"><?php echo $data->data_title; ?></button></td>
-                    <td><?php echo $dExtra->keyword; ?></td>
-                    <td>
-                        <div class="input-group">
-                            <input type="text" id="dataInput<?php echo $data->data_id; ?>" class="dataInput form-control form-control-sm" placeholder="*******">
-                            <button class="btn btn-sm btnDecrypt btn-outline-danger fa fa-eye" type="button"
-                                    onclick="decryptProjectData('show', '<?php echo $data->urlDecrypt(); ?>', '<?php echo $dExtra->value; ?>')"></button>
-                            <button class="btn btn-sm btnDecrypt btn-outline-danger fa fa-eye-slash  d-none" type="button"
-                                    onclick="decryptProjectData(<?php echo $data->data_id; ?>, 0,0)"></button>
-                            <button class="btn btn-sm btn-outline-primary fa fa-copy" onclick="copyToClipboard('dataInput<?php echo $data->data_id; ?>')" type="button"></button>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="btn-group">
-                            <a href="<?php echo ''; ?>" class="btn btn-warning fa fa-edit text-center"></a>
-                            <button class="btn btn-danger fa fa-trash text-center" onclick="sweetDel('proje verisi silinecek', 'bu bilgiyi silmek istediğinize emin misiniz? işlem bir daha geri alınamaz', '<?php echo $data->urlDelete(); ?>', 'tr.row-data-item-')"></button>
-                        </div>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-
-            </tbody>
-        </table>
 
 
 

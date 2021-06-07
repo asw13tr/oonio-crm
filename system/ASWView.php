@@ -10,14 +10,14 @@ class ASWView{
 
 
     static function include($path, $datas=[], $allowBeforeInc=true, $allowAfterInc=true){
-        
+        extract($datas);
+
         if($allowBeforeInc){
             foreach( self::$includeBeforeView as $file){ 
                 require_once( (self::$pathRoot).self::cleanPhpExt($file) ); 
             }
         }
 
-        extract($datas);
         require_once( (self::$pathRoot) . self::cleanPhpExt($path) ) ;
 
         if($allowAfterInc){

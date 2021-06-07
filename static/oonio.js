@@ -6,6 +6,13 @@
 
 
 
+function aswToast(title, status, time, callback=null){
+    alertify.set('notifier','position', 'top-right');
+    alertify.notify(title, status, time, callback);
+}
+
+
+
 
 
 //SUMMER NODE KULLANIMIÜ
@@ -24,8 +31,6 @@ $('.summernote').summernote({
     ]*/
 });
 
-
-var sweetModals = [];
 
 /*
 * RETURN JSON
@@ -46,8 +51,7 @@ function sweetDel(title, desc, url, trClassNamePrefix='tr.row-item-'){
                 dataType: 'json'
             }).done((response) => {
                 if(response.status){
-                    alertify.set('notifier','position', 'top-right');
-                    alertify.notify(response.title, (!response.status? 'error' : 'success'), 3, function(){});
+                    aswToast(response.title, (!response.status? 'error' : 'success'), 3);
                     $(trClassNamePrefix+response.id).fadeOut(250);
                 }else{
 
@@ -65,49 +69,12 @@ function sweetDel(title, desc, url, trClassNamePrefix='tr.row-item-'){
                 maximizable: false,
                 pinnable:false,
                 padding:true,
-                transition:'flipy',
+                transition:'fade',
                 defaultFocus: 'ok',
                 onclose: function(){
                     this.setContent('');
                 }
             });
-
-
-/*
-    Swal.fire({
-        title: title,
-        icon: 'warning',
-        text: desc,
-        showConfirmButton: true,
-        confirmButtonText: `Onayla`,
-        showCancelButton: true,
-        cancelButtonText: `Vazgeç`
-    }).then((result) => {
-
-        if(result.isConfirmed){
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: null,
-                dataType: 'json'
-            }).done((response) => {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: (!response.status? 'error' : 'success'),
-                    title: response.title,
-                    text: response.message,
-                    showConfirmButton: false,
-                    timer: (!response.timer? 750 : response.timer)
-                })
-                if(response.status){
-                    $(trClassNamePrefix+response.id).fadeOut(250);
-                }
-            }); //done
-        } //if(result.isConfirmed) )
-
-    }); //then
-    */
-
 } //sweetDel
 
 
@@ -140,51 +107,7 @@ function getPopupInfo(url){
 
 
 
-// PROJELERE YENİ VERİ BİLGİSİ EKLEMEK
-function createNewProjectData(e){
-    e.preventDefault();
-    let form = document.getElementById('newDataForm');
-    let formDatas = new FormData(form);
 
-    $.ajax({
-        url: form.action,
-        type: 'POST',
-        dataType: 'JSON',
-        processData: false,
-        contentType: false,
-        data: formDatas
-    }).done((response)=>{
-        if(response.status!=true){
-            alert('işlem başarısız');
-        }else{
-            console.log(response);
-            // TODO: Veri eklenince tabloyada eklenmeli.
-            form.reset();
-            document.querySelector('a.btnNewProjectData').click();
-        }
-    });
-    return false;
-} //createNewProjectData
-
-
-function decryptProjectData(prcOrID, url, val){
-    if(prcOrID!='show'){
-        $('.row-data-item-'+prcOrID+' input.dataInput').val('');
-        $('.row-data-item-'+prcOrID+' button.btnDecrypt').toggleClass('d-none');
-    }else{
-        $.ajax({
-            url:url,
-            type:'POST',
-            data: {val:val},
-            dataType:'JSON',
-        }).done( response => {
-            if(response.status==true){
-                $('.'+response.className+' input.dataInput').val(response.value);
-                $('.'+response.className+' button.btnDecrypt').toggleClass('d-none');
-            }
-        } );
-    }
-} // decryptProjectData
 
 
 
@@ -197,6 +120,7 @@ function copyToClipboard(id){
     copyText.setSelectionRange(0, 99999);
     document.execCommand("copy");
 } //copyToClipboard
+
 
 
 
