@@ -50,7 +50,7 @@
 
         <tr>
             <th width="200"><?php echo _tr('url'); ?></th>
-            <td><a href="<?php echo $extra->url; ?>" target="_blank"><?php echo $extra->url; ?></a></td>
+            <td><a href="<?php echo ASWHelper::addhttp($extra->url); ?>" target="_blank"><?php echo $extra->url; ?></td>
         </tr>
 
         <tr><th colspan="2"><?php echo _tr('ayrıntılar'); ?></th></tr>

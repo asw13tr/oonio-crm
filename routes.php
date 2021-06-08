@@ -25,41 +25,41 @@
     ASWRouter::post('user/:id/change-status',   'UserController@changeStatus', 'user.change.status');
 
     // PROJECTS
-    ASWRouter::get('projects', 'ProjectController@index', 'projects');
-    ASWRouter::get('project/create', 'ProjectController@create', 'project.create');
+    ASWRouter::get( 'projects', 'ProjectController@index', 'projects');
+    ASWRouter::get( 'project/create', 'ProjectController@create', 'project.create');
     ASWRouter::post('project/save', 'ProjectController@save', 'project.save');
-    ASWRouter::get('project/:id',          'ProjectController@show',    'project.show');
-    ASWRouter::get('project/:id/edit', 'ProjectController@edit', 'project.edit');
+    ASWRouter::get( 'project/:id',          'ProjectController@show',    'project.show');
+    ASWRouter::get( 'project/:id/popup',          'ProjectController@popup',    'project.popup');
+    ASWRouter::get( 'project/:id/edit', 'ProjectController@edit', 'project.edit');
     ASWRouter::post('project/:id/update', 'ProjectController@update', 'project.update');
     ASWRouter::post('project/:id/delete',          'ProjectController@delete',    'project.delete');
-    ASWRouter::get('project/:id/popup',          'ProjectController@popup',    'project.popup');
+
 
     // PROJECT DATAS
-    ASWRouter::get('project/:id/data/create', 'ProjectDataController@create', 'project.data.create');
+    ASWRouter::get( 'project/:id/data/create', 'ProjectDataController@create', 'project.data.create');
     ASWRouter::post('project/:id/data/save', 'ProjectDataController@save', 'project.data.save');
-    ASWRouter::get('project/data/:id/edit', 'ProjectDataController@edit', 'project.data.edit');
+    ASWRouter::get( 'project/data/:id/edit', 'ProjectDataController@edit', 'project.data.edit');
     ASWRouter::post('project/data/:id/update', 'ProjectDataController@update', 'project.data.update');
     ASWRouter::post('project/data/:id/decrypt', 'ProjectDataController@decrypt', 'project.data.decrypt');
     ASWRouter::post('project/data/:id/delete',          'ProjectDataController@delete',    'project.data.delete');
 
     // PROJECT TAGS
-    ASWRouter::get('projects/tags', 'ProjectTagController@index', 'project.tags');
+    ASWRouter::get( 'projects/tags', 'ProjectTagController@index', 'project.tags');
     ASWRouter::post('project/tag/save', 'ProjectTagController@save', 'project.tag.save');
-    ASWRouter::get('project/tag/:id/edit', 'ProjectTagController@edit', 'project.tag.edit');
+    ASWRouter::get( 'project/tag/:id/edit', 'ProjectTagController@edit', 'project.tag.edit');
     ASWRouter::post('project/tag/:id/update', 'ProjectTagController@update', 'project.tag.update');
     ASWRouter::post('project/tag/:id/delete', 'ProjectTagController@delete', 'project.tag.delete');
 
     // TASKS
-    ASWRouter::get('tasks',         'TaskController@index',     'tasks');
-    ASWRouter::get('tasks/create',  'TaskController@create',    'task.create');
-    ASWRouter::get('tasks/:id/edit',    'TaskController@edit',      'task.edit');
-    ASWRouter::get('tasks/:id/delete',  'TaskController@delete',    'task.delete');
-
-    // DOCUMENTS
-    ASWRouter::get('documents',        'DocumentController@index',     'documents');
-    ASWRouter::get('document/create',  'DocumentController@create',    'document.create');
-    ASWRouter::get('document/:id/edit',    'DocumentController@edit',      'document.edit');
-    ASWRouter::get('document/:id/delete',  'DocumentController@delete',    'document.delete');
+    ASWRouter::get( 'tasks',         'TaskController@index',     'tasks');
+    ASWRouter::get( 'task/filter/:key/:val', 'TaskController@filter', "task.filter");
+    ASWRouter::get( 'task/create',  'TaskController@create',    'task.create');
+    ASWRouter::post('task/save',    'TaskController@save',    'task.save');
+    ASWRouter::get( 'task/:id',          'TaskController@show',    'task.show');
+    ASWRouter::get( 'task/:id/popup',          'TaskController@popup',    'task.popup');
+    ASWRouter::get( 'task/:id/edit',    'TaskController@edit',      'task.edit');
+    ASWRouter::post('task/:id/update',    'TaskController@update',      'task.update');
+    ASWRouter::post('task/:id/delete',  'TaskController@delete',    'task.delete');
     
 
     ASWRouter::get('404', 'ErrorController@not_found', '404');

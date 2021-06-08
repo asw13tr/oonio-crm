@@ -17,6 +17,7 @@ $content = '';
 $ptags = [];
 $pusers = [];
 $pcontacts = [];
+$button         = '<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> '._tr('oluştur').'</button>';
 
 if(isset($project)){
     $extra       = json_decode($project->project_extra);
@@ -30,6 +31,7 @@ if(isset($project)){
     $ptags       = array_map(function($i){ return $i->tax_id; }, $connections['tags']);
     $pusers      = array_map(function($i){ return $i->user_id; }, $connections['users']);
     $pcontacts   = array_map(function($i){ return $i->contact_id; }, $connections['contacts']);
+    $button         = '<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> '._tr('güncelle').'</button>';
 }
 ?>
 
@@ -100,10 +102,7 @@ if(isset($project)){
                         </div>
 
                         <div class="mb-3 border-bottom"></div>
-
-                        <div class="mb-3">
-                            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> <?php echo _tr('oluştur'); ?></button>
-                        </div>
+                        <div class="mb-3"><?php echo $button; ?></div>
 
 
 

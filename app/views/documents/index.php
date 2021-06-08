@@ -1,1 +1,0 @@
-<p><b>views/documents</b> dizininde bulunan <b>index.php</b> dosyası.</p>

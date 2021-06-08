@@ -35,7 +35,20 @@ $config = array(
         3 => 'Editör',
         4 => 'Yönetici',
         5 => 'Süper Yönetici',
+    ],
 
+
+    'TASK_STATUS_LIST' => [
+        0 => 'Askıya Alındı',
+        1 => 'Beklemede',
+        2 => 'Devam Ediyor',
+        3 => 'Tamamlandı'
+    ],
+
+    'TASK_IMPORTANCE_LIST' => [
+        1 => 'Normal',
+        2 => 'Önemli',
+        3 => 'Acil'
     ]
 
 
