@@ -38,7 +38,7 @@
                 <td><a href="<?php url('task.filter', ['key'=>'status', 'val'=>$task->task_status]); ?>"><?php echo TASK_STATUS_LIST[$task->task_status]; ?></a></td>
                 <td><button class="btn btn-default btn-sm text-start" onclick="showTaskWithAjax('<?php echo $task->urlPopup(); ?>')"><?php echo $task->task_title; ?></button></td>
                 <td><?php echo $task->task_description; ?></td>
-                <td><a href="<?php url('task.filter', ['key'=>'user', 'val'=>$task->user_id]); ?>"><?php echo $task->user_name; ?></a></td>
+                <td><a href="<?php url('task.filter', ['key'=>'user', 'val'=>$task->task_user]); ?>"><?php echo $task->user_name; ?></a></td>
                 <td><?php if($task->task_c_time){ echo date('d F Y', strtotime($task->task_c_time)); } ?></td>
                 <td>
                     <div class="btn-group">

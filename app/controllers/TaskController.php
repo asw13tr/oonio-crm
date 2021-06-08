@@ -10,7 +10,7 @@ class TaskController extends ASWController{
     private function findTasks($where=''){
         $task = new Task();
         $selectedColumns = 'tasks.*, u.user_name, p.project_title';
-        $extraSql = 'LEFT JOIN users AS u ON u.user_id=tasks.task_user LEFT JOIN projects AS p ON p.project_id=tasks.task_project'.$where.' ORDER BY task_importance DESC, task_order ASC';
+        $extraSql = 'LEFT JOIN users AS u ON u.user_id=tasks.task_user LEFT JOIN projects AS p ON p.project_id=tasks.task_project '.$where.' ORDER BY task_importance DESC, task_order ASC';
         return $task->findAll($extraSql, null, $selectedColumns);
     } //findTasks
 
