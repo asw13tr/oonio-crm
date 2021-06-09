@@ -75,9 +75,14 @@ class  ContactController extends ASWController{
             redirect('contacts');
         }
 
-        $postDatas = $_POST;
-        $postDatas['contact_extra'] = json_encode($_POST['contact_extra']);
-        $contact = $contact->update($postDatas);
+        $recordDatas = $_POST;
+        if(strlen(post('contact_birth'))<10){
+            unset($recordDatas['contact_birth']);
+        }
+        $recordDatas['contact_extra'] = json_encode($_POST['contact_extra']);
+        $recordDatas['contact_mobile'] = str_replace(' ', '', $recordDatas['contact_mobile']);
+        $recordDatas['contact_phone'] = str_replace(' ', '', $recordDatas['contact_phone']);
+        $contact = $contact->update($recordDatas);
 
         if(!$contact){
             ASWSession::setFlash('flash-danger', 'kişi güncellenirken bir sorun oluştu');
