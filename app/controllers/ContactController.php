@@ -31,10 +31,15 @@ class  ContactController extends ASWController{
 
     // Rehber kişisini kayıt etmek
     function save(){
-        $postDatas = $_POST;
-        $postDatas['contact_extra'] = json_encode($_POST['contact_extra']);
+        $recordDatas = $_POST;
+        if(strlen(post('contact_birth'))<10){
+            unset($recordDatas['contact_birth']);
+        }
+        $recordDatas['contact_extra'] = json_encode($_POST['contact_extra']);
+        $recordDatas['contact_mobile'] = str_replace(' ', '', $recordDatas['contact_mobile']);
+        $recordDatas['contact_phone'] = str_replace(' ', '', $recordDatas['contact_phone']);
         $contact = new Contact();
-        $contact = $contact->create($postDatas);
+        $contact = $contact->create($recordDatas);
 
         if(!$contact){
             ASWSession::setFlash('flash-danger', 'işlem sırasında beklenmedik bir hata oluştu.');
